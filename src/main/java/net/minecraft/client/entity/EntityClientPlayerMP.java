@@ -53,6 +53,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     private int ticksSinceMovePacket;
 
+    public int ticksAirborne;
+
     /** has the client player's health been set? */
     private boolean hasSetHealth;
     private String field_142022_ce;
@@ -100,6 +102,12 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         {
             Nebula.BUS.dispatch(new EventUpdate());
             super.onUpdate();
+
+            if (mc.thePlayer.onGround) {
+                ticksAirborne = 0;
+            } else {
+                ++ticksAirborne;
+            }
 
             if (this.isRiding())
             {

@@ -48,7 +48,7 @@ public class NumberSettingComponent extends Component {
 
     mc.fontRenderer.drawStringWithShadow(setting.meta().value(), (int) (x + 3), (int) (y + 4), -1);
 
-    String formatted = String.format("%.1f", setting.value().doubleValue());
+    String formatted = String.format("%.2f", setting.value().doubleValue());
     mc.fontRenderer.drawStringWithShadow(formatted,
       (int) ((x + width) - (mc.fontRenderer.getStringWidth(formatted) + 2)),
       (int) (y + 4),

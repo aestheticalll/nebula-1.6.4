@@ -1,6 +1,8 @@
 package nebula.client.util.math;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 
@@ -36,6 +38,26 @@ public class AngleUtils {
     float yaw = (float) (Math.toDegrees(Math.atan2(deltaZ, deltaX)) + 90.0f);
     float pitch = (float) Math.toDegrees(Math.atan2(
       eyes.yCoord - (pos.yCoord - (offsetY * 0.5)), dist));
+
+    return new float[] { yaw, pitch };
+  }
+
+  public static float[] entity(final EntityLivingBase entity) {
+    final Vec3 eyes = Vec3.createVectorHelper(mc.thePlayer.posX,
+        mc.thePlayer.boundingBox.minY,
+        mc.thePlayer.posZ);
+    final Vec3 vec = Vec3.createVectorHelper(entity.posX,
+        entity.boundingBox.minY + (entity.height / 2.0f) - 0.4,
+        entity.posZ);
+
+    final double deltaX = eyes.xCoord - vec.xCoord;
+    final double deltaZ = eyes.zCoord - vec.zCoord;
+
+    final double distance = Math.hypot(deltaX, deltaZ);
+
+    float yaw = (float) (Math.toDegrees(Math.atan2(deltaZ, deltaX)) + 90.0f);
+    float pitch = (float) Math.toDegrees(Math.atan2(
+        eyes.yCoord - vec.yCoord, distance));
 
     return new float[] { yaw, pitch };
   }

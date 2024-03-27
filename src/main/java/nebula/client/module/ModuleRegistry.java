@@ -9,6 +9,7 @@ import nebula.client.module.impl.combat.criticals.CriticalsModule;
 import nebula.client.module.impl.combat.regen.RegenModule;
 import nebula.client.module.impl.combat.velocity.VelocityModule;
 import nebula.client.module.impl.exploit.fastuse.FastUseModule;
+import nebula.client.module.impl.exploit.franky.FrankyModule;
 import nebula.client.module.impl.exploit.freeze.FreezeModule;
 import nebula.client.module.impl.exploit.noc03.NoC03Module;
 import nebula.client.module.impl.exploit.nohunger.NoHungerModule;
@@ -17,6 +18,7 @@ import nebula.client.module.impl.exploit.phase.PhaseModule;
 import nebula.client.module.impl.exploit.portalchat.PortalChatModule;
 import nebula.client.module.impl.exploit.thunderlocator.ThunderLocatorModule;
 import nebula.client.module.impl.movement.autowalk.AutoWalkModule;
+import nebula.client.module.impl.movement.gravity.GravityModule;
 import nebula.client.module.impl.movement.guimove.GuiMoveModule;
 import nebula.client.module.impl.movement.icespeed.IceSpeedModule;
 import nebula.client.module.impl.movement.jesus.JesusModule;
@@ -37,6 +39,7 @@ import nebula.client.module.impl.player.keypearl.KeyPearlModule;
 import nebula.client.module.impl.player.nofall.NoFallModule;
 import nebula.client.module.impl.player.novoid.NoVoidModule;
 import nebula.client.module.impl.player.packetmine.PacketMineModule;
+import nebula.client.module.impl.player.pathfinder.PathFinderModule;
 import nebula.client.module.impl.player.scaffold.ScaffoldModule;
 import nebula.client.module.impl.render.appleskin.AppleSkinModule;
 import nebula.client.module.impl.render.chams.ChamsModule;
@@ -54,13 +57,11 @@ import nebula.client.module.impl.render.shader.ShaderModule;
 import nebula.client.util.fs.FileUtils;
 import nebula.client.util.fs.JSONUtils;
 import nebula.client.util.registry.Registry;
-import nebula.client.util.system.Reflections;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static nebula.client.util.fs.JSONUtils.GSON;
@@ -114,6 +115,7 @@ public class ModuleRegistry implements Registry<Module> {
       add(new VelocityModule());
 
       add(new FastUseModule());
+      add(new FrankyModule());
       add(new FreezeModule());
       add(new NoC03Module());
       add(new NoHungerModule());
@@ -123,6 +125,7 @@ public class ModuleRegistry implements Registry<Module> {
       add(new ThunderLocatorModule());
 
       add(new AutoWalkModule());
+      add(new GravityModule());
       add(new GuiMoveModule());
       add(new IceSpeedModule());
       add(new JesusModule());

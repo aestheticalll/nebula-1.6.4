@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import nebula.client.Nebula;
+import nebula.client.listener.event.player.EventGravity;
 import nebula.client.listener.event.player.EventMoveBlockFriction;
 import nebula.client.listener.event.player.rotate.EventRotateBody;
 import net.minecraft.block.Block;
@@ -1694,6 +1695,9 @@ public abstract class EntityLivingBase extends Entity
                 this.motionY = 0.2D;
             }
 
+            final EventGravity event = new EventGravity(this, 0.9800000190734863, 0.08D);
+            Nebula.BUS.dispatch(event);
+
             if (this.worldObj.isClient && (!this.worldObj.blockExists((int)this.posX, 0, (int)this.posZ) || !this.worldObj.getChunkFromBlockCoords((int)this.posX, (int)this.posZ).isChunkLoaded))
             {
                 if (this.posY > 0.0D)
@@ -1707,10 +1711,10 @@ public abstract class EntityLivingBase extends Entity
             }
             else
             {
-                this.motionY -= 0.08D;
+                this.motionY -= event.getAirResistance();
             }
 
-            this.motionY *= 0.9800000190734863D;
+            this.motionY *= event.getGravity();
             this.motionX *= (double)var3;
             this.motionZ *= (double)var3;
         }

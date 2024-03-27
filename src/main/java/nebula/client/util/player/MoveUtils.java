@@ -36,6 +36,12 @@ public class MoveUtils {
       speed * -Math.sin(x), speed * Math.cos(x) };
   }
 
+  public static void setSpeed(double speed) {
+    final double[] motion = strafe(speed);
+    mc.thePlayer.motionX = motion[0];
+    mc.thePlayer.motionZ = motion[1];
+  }
+
   public static void strafe() {
     double[] strafe = strafe(speed());
     mc.thePlayer.motionX = strafe[0];
