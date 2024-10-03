@@ -22,36 +22,58 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "Blink",
-  description = "Holds packets until a later time")
-public class BlinkModule extends Module {
+    description = "Holds packets until a later time")
+public class BlinkModule extends Module
+{
 
   // packets
   @SettingMeta("Movement")
   private final Setting<Boolean> movement = new Setting<>(
-    true);
+      true);
   @SettingMeta("Keep Alive")
   private final Setting<Boolean> keepAlive = new Setting<>(
-    false);
+      false);
   @SettingMeta("Actions")
   private final Setting<Boolean> actions = new Setting<>(
-    true);
+      true);
 
   // other
   @SettingMeta("Resend")
   private final Setting<Boolean> resend = new Setting<>(
-    true);
+      true);
   @SettingMeta("Render")
   private final Setting<Boolean> render = new Setting<>(
-    true);
+      true);
 
   private final Queue<Packet> packetQueue = new ConcurrentLinkedQueue<>();
+  @Subscribe
+  private final Listener<EventPacket.Out> packetOut = event ->
+  {
+    if (mc.thePlayer == null || mc.thePlayer.ticksExisted < 5)
+    {
+      packetQueue.clear();
+      return;
+    }
+
+    if ((event.packet() instanceof C03PacketPlayer && movement.value())
+        || (event.packet() instanceof C00PacketKeepAlive && keepAlive.value())
+        || (event.packet() instanceof C0BPacketEntityAction && actions.value()))
+    {
+
+      packetQueue.add(event.packet());
+      event.setCanceled(true);
+    }
+  };
 
   @Override
-  public void disable() {
+  public void disable()
+  {
     super.disable();
 
-    if (resend.value() && mc.thePlayer != null) {
-      while (!packetQueue.isEmpty()) {
+    if (resend.value() && mc.thePlayer != null)
+    {
+      while (!packetQueue.isEmpty())
+      {
         mc.thePlayer.sendQueue.addToSendQueueSilent(packetQueue.poll());
       }
     }
@@ -61,10 +83,12 @@ public class BlinkModule extends Module {
   }
 
   @Override
-  public void enable() {
+  public void enable()
+  {
     super.enable();
 
-    if (mc.thePlayer == null) {
+    if (mc.thePlayer == null)
+    {
       macro().setEnabled(false);
       return;
     }
@@ -73,23 +97,8 @@ public class BlinkModule extends Module {
   }
 
   @Override
-  public String info() {
+  public String info()
+  {
     return String.valueOf(packetQueue.size());
   }
-
-  @Subscribe
-  private final Listener<EventPacket.Out> packetOut = event -> {
-    if (mc.thePlayer == null || mc.thePlayer.ticksExisted < 5) {
-      packetQueue.clear();
-      return;
-    }
-
-    if ((event.packet() instanceof C03PacketPlayer && movement.value())
-      || (event.packet() instanceof C00PacketKeepAlive && keepAlive.value())
-      || (event.packet() instanceof C0BPacketEntityAction && actions.value())) {
-
-      packetQueue.add(event.packet());
-      event.setCanceled(true);
-    }
-  };
 }

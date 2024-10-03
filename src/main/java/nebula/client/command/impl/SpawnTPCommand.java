@@ -10,13 +10,15 @@ import net.minecraft.network.play.client.C03PacketPlayer;
  * @since 08/10/23
  */
 @SuppressWarnings("unused")
-@CommandMeta(aliases = {"spawn", "spawntp", "stp"},
-  description = "Sends you to the server spawn point")
-public class SpawnTPCommand extends Command {
+@CommandMeta(aliases = { "spawn", "spawntp", "stp" },
+    description = "Sends you to the server spawn point")
+public class SpawnTPCommand extends Command
+{
   @Override
-  public int execute(String[] args) {
+  public int execute(String[] args)
+  {
     mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(
-      Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
+        Double.NaN, Double.NaN, Double.NaN, Double.NaN, false));
 
     return CommandResults.SUCCESS;
   }

@@ -5,7 +5,8 @@ package nebula.client.util.render.animation;
  * @author Gavin
  * @since 2.0.0
  */
-public class Animation {
+public class Animation
+{
 
   private Easing easing;
   private boolean state;
@@ -20,7 +21,8 @@ public class Animation {
    * @param animationTime the time that it takes to finish the animation
    * @param initialState  the state to start the animation in
    */
-  public Animation(Easing easing, double animationTime, boolean initialState) {
+  public Animation(Easing easing, double animationTime, boolean initialState)
+  {
     this.easing = easing;
     this.animationTime = animationTime;
     setState(initialState);
@@ -31,27 +33,32 @@ public class Animation {
    *
    * @return the factor based on time and speed
    */
-  public double factor() {
+  public double factor()
+  {
     double linear = (System.currentTimeMillis() - time) / animationTime;
-    if (!state) {
+    if (!state)
+    {
       linear = 1.0 - linear;
     }
 
     return Math.min(Math.max(easing.ease(linear), 0.0), 1.0);
   }
 
-  public Animation setEasing(Easing easing) {
+  public Animation setEasing(Easing easing)
+  {
     this.easing = easing;
     return this;
   }
 
-  public Animation setState(boolean state) {
+  public Animation setState(boolean state)
+  {
     this.state = state;
     time = System.currentTimeMillis();
     return this;
   }
 
-  public boolean state() {
+  public boolean state()
+  {
     return state;
   }
 
@@ -61,7 +68,8 @@ public class Animation {
    * @param animationTime the animation time - lower the number, the faster
    * @return this animation instance
    */
-  public Animation setAnimationTime(double animationTime) {
+  public Animation setAnimationTime(double animationTime)
+  {
     this.animationTime = animationTime;
     return this;
   }

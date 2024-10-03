@@ -14,22 +14,22 @@ import static org.lwjgl.input.Keyboard.KEY_RSHIFT;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "ClickGUI",
-  description = "Displays a configuration menu for modules",
-  defaultMacro = KEY_RSHIFT)
-public class ClickGUIModule extends Module {
-
-  @SettingMeta("Mode")
-  private final Setting<ClickGUIMode> mode = new Setting<>(
-    ClickGUIMode.FUTURE);
+    description = "Displays a configuration menu for modules",
+    defaultMacro = KEY_RSHIFT)
+public class ClickGUIModule extends Module
+{
 
   @SettingMeta("Pause")
   public final Setting<Boolean> pause = new Setting<>(
-    false);
-
+      false);
+  @SettingMeta("Mode")
+  private final Setting<ClickGUIMode> mode = new Setting<>(
+      ClickGUIMode.FUTURE);
   private ModuleConfigScreen screen;
 
   @Override
-  public void enable() {
+  public void enable()
+  {
     super.enable();
 
     if (mc.thePlayer == null || mc.theWorld == null) return;

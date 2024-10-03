@@ -1,18 +1,21 @@
 package nebula.client.util.render;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * @author Gavin
  * @since 08/15/23
  */
-public class ColorUtils {
+public class ColorUtils
+{
 
-  public static int alpha(int color, int alpha) {
+  public static int alpha(int color, int alpha)
+  {
     return (color & 0x00ffffff) | (alpha << 24);
   }
 
-  public static Color pulse(Color firstColor, Color secondColor, int index, double speed) {
+  public static Color pulse(Color firstColor, Color secondColor, int index, double speed)
+  {
     long now = (long) (speed * System.currentTimeMillis() + -index * 11L);
 
     float time = 850.0f;
@@ -32,9 +35,11 @@ public class ColorUtils {
     int ge2 = Math.round(firstColor.getGreen() + gd2 * (now % (long) time));
     int be2 = Math.round(firstColor.getBlue() + bd2 * (now % (long) time));
 
-    if (now % ((long) time * 2L) < (long) time) {
+    if (now % ((long) time * 2L) < (long) time)
+    {
       return new Color(re2, ge2, be2);
-    } else {
+    } else
+    {
       return new Color(re1, ge1, be1);
     }
   }

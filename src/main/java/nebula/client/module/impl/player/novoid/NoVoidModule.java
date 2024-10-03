@@ -13,18 +13,21 @@ import nebula.client.util.value.SettingMeta;
  * @since 03/20/24
  */
 @ModuleMeta(name = "NoVoid",
-        description = "Prevents you from falling into the void")
-public final class NoVoidModule extends Module {
+    description = "Prevents you from falling into the void")
+public final class NoVoidModule extends Module
+{
 
-    @SettingMeta("Mode")
-    private final Setting<NoVoidMode> mode = new Setting<>(
-            NoVoidMode.FLOAT);
+  @SettingMeta("Mode")
+  private final Setting<NoVoidMode> mode = new Setting<>(
+      NoVoidMode.FLOAT);
 
-    @Subscribe
-    private final Listener<EventMove> move = event -> {
-        if (mc.thePlayer.boundingBox.minY <= 0.0) {
-            event.setY(0.0);
-            mc.thePlayer.motionY = 0.0;
-        }
-    };
+  @Subscribe
+  private final Listener<EventMove> move = event ->
+  {
+    if (mc.thePlayer.boundingBox.minY <= 0.0)
+    {
+      event.setY(0.0);
+      mc.thePlayer.motionY = 0.0;
+    }
+  };
 }

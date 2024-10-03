@@ -8,13 +8,15 @@ import net.minecraft.util.AxisAlignedBB;
  * @author Gavin
  * @since 08/24/23
  */
-public class EventCollision {
-  private AxisAlignedBB box;
+public class EventCollision
+{
   private final Block block;
   private final Entity entity;
   private final int x, y, z;
+  private AxisAlignedBB box;
 
-  public EventCollision(AxisAlignedBB box, Block block, Entity entity, int x, int y, int z) {
+  public EventCollision(AxisAlignedBB box, Block block, Entity entity, int x, int y, int z)
+  {
     this.box = box;
     this.block = block;
     this.entity = entity;
@@ -23,31 +25,38 @@ public class EventCollision {
     this.z = z;
   }
 
-  public AxisAlignedBB box() {
+  public AxisAlignedBB box()
+  {
     return box;
   }
 
-  public void setBox(AxisAlignedBB box) {
+  public void setBox(AxisAlignedBB box)
+  {
     this.box = box;
   }
 
-  public Block block() {
+  public Block block()
+  {
     return block;
   }
 
-  public Entity entity() {
+  public Entity entity()
+  {
     return entity;
   }
 
-  public int x() {
+  public int x()
+  {
     return x;
   }
 
-  public int y() {
+  public int y()
+  {
     return y;
   }
 
-  public int z() {
+  public int z()
+  {
     return z;
   }
 }

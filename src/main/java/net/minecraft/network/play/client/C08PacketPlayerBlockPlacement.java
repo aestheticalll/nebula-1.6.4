@@ -21,6 +21,10 @@ public class C08PacketPlayerBlockPlacement extends Packet
 
     public C08PacketPlayerBlockPlacement() {}
 
+    public C08PacketPlayerBlockPlacement(final ItemStack itemStack) {
+        this(-1, -1, -1, 255, itemStack, 0.0f, 0.0f, 0.0f);
+    }
+
     public C08PacketPlayerBlockPlacement(int p_i45265_1_, int p_i45265_2_, int p_i45265_3_, int p_i45265_4_, ItemStack p_i45265_5_, float p_i45265_6_, float p_i45265_7_, float p_i45265_8_)
     {
         this.field_149583_a = p_i45265_1_;

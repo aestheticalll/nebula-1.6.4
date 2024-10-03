@@ -29,51 +29,50 @@ import static org.lwjgl.opengl.GL11.*;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "ESP", description = "yes")
-public class ESPModule extends Module {
+public class ESPModule extends Module
+{
 
   @SettingMeta("Mode")
   private final Setting<ESPMode> mode = new Setting<>(
-    ESPMode.CS_GO);
+      ESPMode.CS_GO);
   @SettingMeta("Labels")
   private final Setting<Boolean> labels = new Setting<>(
-    () -> mode.value() == ESPMode.CS_GO,
-    false);
-
+      () -> mode.value() == ESPMode.CS_GO,
+      false);
   private final Map<Integer, float[][]> projected = new ConcurrentHashMap<>();
-
-  @Override
-  public void disable() {
-    super.disable();
-    projected.clear();
-  }
-
   @Subscribe
-  private final Listener<EventRender2D> render2D = event -> {
+  private final Listener<EventRender2D> render2D = event ->
+  {
 
-    if (mode.value() == ESPMode.CS_GO) {
+    if (mode.value() == ESPMode.CS_GO)
+    {
 
-      if (mc.thePlayer.ticksExisted < 5) {
+      if (mc.thePlayer.ticksExisted < 5)
+      {
         projected.clear();
         return;
       }
 
-      for (int id : projected.keySet()) {
+      for (int id : projected.keySet())
+      {
         float[][] projection = projected.get(id);
         if (projection == null) continue;
 
         Entity entity = mc.theWorld.getEntityByID(id);
-        if (!(entity instanceof EntityLivingBase e) || entity.isDead) {
+        if (!(entity instanceof EntityLivingBase e) || entity.isDead)
+        {
           projected.remove(id);
           continue;
         }
 
         if (id == mc.thePlayer.getEntityId()
-          && mc.gameSettings.thirdPersonView == 0) continue;
+            && mc.gameSettings.thirdPersonView == 0) continue;
 
         float[] top = projection[0];
         float[] bottom = projection[1];
 
-        if (top[2] > 1 || bottom[2] > 1) {
+        if (top[2] > 1 || bottom[2] > 1)
+        {
           projected.remove(id);
           continue;
         }
@@ -89,14 +88,18 @@ public class ESPModule extends Module {
         glDisable(GL_TEXTURE_2D);
 
         if (e instanceof EntityPlayer player
-          && (Nebula.INSTANCE.friend.isFriend(player)
-          || player.equals(mc.thePlayer))) {
+            && (Nebula.INSTANCE.friend.isFriend(player)
+            || player.equals(mc.thePlayer)))
+        {
           glColor4f(0, 0.4f, 0.6f, 1);
-        } else {
+        } else
+        {
 
-          if (FakePlayerUtils.isFake(e.getEntityId())) {
+          if (FakePlayerUtils.isFake(e.getEntityId()))
+          {
             glColor4f(0.3f, 0.3f, 0.3f, 1);
-          } else {
+          } else
+          {
             glColor4f(1, 1, 1, 1);
           }
         }
@@ -124,10 +127,10 @@ public class ESPModule extends Module {
         float healthPercent = e.getHealth() / 24.0f;
 
         glColor4f(
-          1.0f - healthPercent,
-          healthPercent,
-          0.0f,
-          1.0f
+            1.0f - healthPercent,
+            healthPercent,
+            0.0f,
+            1.0f
         );
 
         glBegin(GL_LINES);
@@ -140,23 +143,26 @@ public class ESPModule extends Module {
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_DEPTH_TEST);
 
-        if (labels.value()) {
+        if (labels.value())
+        {
           String name = e.getCommandSenderName() + EnumChatFormatting.RED + " " + e.getHealth() + "\u2764";
           int textWidth = mc.fontRenderer.getStringWidth(name);
           mc.fontRenderer.drawStringWithShadow(name,
-            (int) (top[0] - (textWidth / 2)), (int) top[1] - 10, -1);
+              (int) (top[0] - (textWidth / 2)), (int) top[1] - 10, -1);
         }
 
         glPopMatrix();
       }
     }
   };
-
   @Subscribe
-  private final Listener<EventRender3D> render3D = event -> {
+  private final Listener<EventRender3D> render3D = event ->
+  {
 
-    if (mode.value() == ESPMode.CS_GO) {
-      for (Entity e : (List<EntityPlayer>) mc.theWorld.playerEntities) {
+    if (mode.value() == ESPMode.CS_GO)
+    {
+      for (Entity e : (List<EntityPlayer>) mc.theWorld.playerEntities)
+      {
         if (e == null || e.isDead) continue;
 
         if (e.equals(mc.thePlayer) && mc.gameSettings.thirdPersonView == 0) continue;
@@ -165,15 +171,23 @@ public class ESPModule extends Module {
         double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * event.tickDelta()) - RenderManager.renderPosY;
         double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * event.tickDelta()) - RenderManager.renderPosZ;
 
-        if (e.equals(mc.thePlayer)) {
+        if (e.equals(mc.thePlayer))
+        {
           y -= mc.thePlayer.yOffset;
         }
 
         float[] top = ProjectionUtils.project(x, y + e.height + 0.2, z);
         float[] bottom = ProjectionUtils.project(x, y - 0.2, z);
 
-        projected.put(e.getEntityId(), new float[][]{top, bottom});
+        projected.put(e.getEntityId(), new float[][]{ top, bottom });
       }
     }
   };
+
+  @Override
+  public void disable()
+  {
+    super.disable();
+    projected.clear();
+  }
 }

@@ -7,14 +7,17 @@ import net.minecraft.entity.Entity;
  * @author Gavin
  * @since 08/15/23
  */
-public class EventRenderEntity extends Cancelable {
+public class EventRenderEntity extends Cancelable
+{
   private final Entity entity;
 
-  public EventRenderEntity(Entity entity) {
+  public EventRenderEntity(Entity entity)
+  {
     this.entity = entity;
   }
 
-  public Entity entity() {
+  public Entity entity()
+  {
     return entity;
   }
 }

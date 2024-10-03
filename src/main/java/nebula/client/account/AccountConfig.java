@@ -13,38 +13,47 @@ import java.util.StringJoiner;
  * @author Gavin
  * @since 08/13/23
  */
-public class AccountConfig implements Config {
+public class AccountConfig implements Config
+{
   @Override
-  public void save() {
+  public void save()
+  {
     StringJoiner joiner = new StringJoiner("\n");
 
-    for (Account account : Nebula.INSTANCE.account.values()) {
+    for (Account account : Nebula.INSTANCE.account.values())
+    {
       joiner.add(account.username());
     }
 
-    try {
+    try
+    {
       FileUtils.writeFile(file(), joiner.toString());
-    } catch (IOException e) {
+    } catch (IOException e)
+    {
       e.printStackTrace();
       Sentry.captureException(e);
     }
   }
 
   @Override
-  public void load() {
+  public void load()
+  {
     if (!file().exists()) return;
 
     String content;
-    try {
+    try
+    {
       content = FileUtils.readFile(file());
-    } catch (Exception e) {
+    } catch (Exception e)
+    {
       e.printStackTrace();
       return;
     }
 
     if (content.isEmpty()) return;
 
-    for (String line : content.split("\n")) {
+    for (String line : content.split("\n"))
+    {
       line = line.trim();
       if (line.isEmpty()) continue;
       Nebula.INSTANCE.account.add(new Account(line));
@@ -52,7 +61,8 @@ public class AccountConfig implements Config {
   }
 
   @Override
-  public File file() {
+  public File file()
+  {
     return new File(FileUtils.ROOT, "accounts.txt");
   }
 }

@@ -20,16 +20,18 @@ import static nebula.client.util.player.ItemUtils.infinite;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "InfMover",
-  description = "Moves infinite items in and out of containers")
-public class InfMoverModule extends Module {
+    description = "Moves infinite items in and out of containers")
+public class InfMoverModule extends Module
+{
 
   @Subscribe
-  private final Listener<EventSlotClick> slotClick = event -> {
+  private final Listener<EventSlotClick> slotClick = event ->
+  {
 
     // checks to see if the item is infinite - or exists at all
     if (event.containerSlot() == null
-      || !event.containerSlot().getHasStack()
-      || !infinite(event.containerSlot().getStack())) return;
+        || !event.containerSlot().getHasStack()
+        || !infinite(event.containerSlot().getStack())) return;
 
     // if we are not shift clicking the item
     if (event.action() != 1) return;
@@ -44,33 +46,36 @@ public class InfMoverModule extends Module {
 
     // handle chest containers & player inventory containers
 
-    if (container instanceof ContainerChest) {
+    if (container instanceof ContainerChest)
+    {
       // get the actual container size
       // inventorySlots.size() returns the size of the container + the player inventory
       // we only want the size of the chest container
       int containerSize = container.inventorySlots.size()
-        - PLAYER_INVENTORY_SIZE - 1;
+          - PLAYER_INVENTORY_SIZE - 1;
 
       // if the click was within the container
       // container slots go to 0-(size - 1)
       boolean inContainer = containerSize >= event.slot();
 
       int start = inContainer
-        ? containerSize + 1
-        : 0;
+          ? containerSize + 1
+          : 0;
       int end = (inContainer
-        ? containerSize + PLAYER_INVENTORY_SIZE
-        : containerSize)
-        + 1;
+          ? containerSize + PLAYER_INVENTORY_SIZE
+          : containerSize)
+          + 1;
 
-      for (int containerSlot = start; containerSlot < end; ++containerSlot) {
+      for (int containerSlot = start; containerSlot < end; ++containerSlot)
+      {
         Slot slot = (Slot) container.inventorySlots.get(containerSlot);
         if (slot.getHasStack()) continue;
 
         moveSlot = containerSlot;
         if (!inContainer) break;
       }
-    } else if (container instanceof ContainerPlayer) {
+    } else if (container instanceof ContainerPlayer)
+    {
 
       // slots 0-8 are the armor slots & crafting slots
       // the actual inventory starts at slot 9
@@ -79,15 +84,17 @@ public class InfMoverModule extends Module {
       boolean inHotbar = event.slot() >= PLAYER_INVENTORY_SIZE;
 
       int start = inHotbar
-        ? HOTBAR_SIZE
-        : PLAYER_INVENTORY_SIZE;
+          ? HOTBAR_SIZE
+          : PLAYER_INVENTORY_SIZE;
       int end = inHotbar
-        ? PLAYER_INVENTORY_SIZE
-        : PLAYER_INVENTORY_SIZE + HOTBAR_SIZE;
+          ? PLAYER_INVENTORY_SIZE
+          : PLAYER_INVENTORY_SIZE + HOTBAR_SIZE;
 
-      for (int invSlot = start; invSlot < end; ++invSlot) {
+      for (int invSlot = start; invSlot < end; ++invSlot)
+      {
         Slot slot = (Slot) container.inventorySlots.get(invSlot);
-        if (!slot.getHasStack()) {
+        if (!slot.getHasStack())
+        {
           moveSlot = invSlot;
           break;
         }
@@ -99,9 +106,9 @@ public class InfMoverModule extends Module {
 
     // pickup the item from the container/inventory
     mc.playerController.windowClick(event.windowId(),
-      event.slot(), 0, 0, mc.thePlayer);
+        event.slot(), 0, 0, mc.thePlayer);
     // put the item into the slot where it would have been if it were shift clicked
     mc.playerController.windowClick(event.windowId(),
-      moveSlot, 0, 0, mc.thePlayer);
+        moveSlot, 0, 0, mc.thePlayer);
   };
 }

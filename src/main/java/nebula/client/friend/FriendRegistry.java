@@ -10,13 +10,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Gavin
  * @since 08/13/23
  */
-public class FriendRegistry implements Registry<Friend> {
+public class FriendRegistry implements Registry<Friend>
+{
 
   private final Minecraft mc = Minecraft.getMinecraft();
 
@@ -24,48 +28,58 @@ public class FriendRegistry implements Registry<Friend> {
    * A list containing the friend object
    */
   private final List<Friend> friendList = new ArrayList<>();
-
-  @Override
-  public void init() {
-    Nebula.BUS.subscribe(this);
-    ConfigLoader.add(new FriendConfig());
-  }
-
   @Subscribe
-  private final Listener<EventRenderTabPlayerName> renderTabPlayerNameListener = event -> {
-    if (isFriend(event.getContent())) {
+  private final Listener<EventRenderTabPlayerName> renderTabPlayerNameListener = event ->
+  {
+    if (isFriend(event.getContent()))
+    {
       event.setContent(EnumChatFormatting.AQUA + event.getContent());
     }
   };
 
   @Override
-  public void add(Friend... elements) {
+  public void init()
+  {
+    Nebula.BUS.subscribe(this);
+    ConfigLoader.add(new FriendConfig());
+  }
+
+  @Override
+  public void add(Friend... elements)
+  {
     Collections.addAll(friendList, elements);
   }
 
   @Override
-  public void remove(Friend... elements) {
-    for (Friend friend : elements) {
+  public void remove(Friend... elements)
+  {
+    for (Friend friend : elements)
+    {
       friendList.remove(friend);
     }
   }
 
-  public void clear() {
+  public void clear()
+  {
     friendList.clear();
   }
 
   @Override
-  public Collection<Friend> values() {
+  public Collection<Friend> values()
+  {
     return friendList;
   }
 
-  public boolean isFriend(EntityPlayer player) {
+  public boolean isFriend(EntityPlayer player)
+  {
     if (player == null) return false;
     return isFriend(player.getCommandSenderName());
   }
 
-  public boolean isFriend(final String name) {
-    if (name.equals(mc.getSession().getUsername())) {
+  public boolean isFriend(final String name)
+  {
+    if (name.equals(mc.getSession().getUsername()))
+    {
       return true;
     }
 
@@ -74,14 +88,17 @@ public class FriendRegistry implements Registry<Friend> {
 
   /**
    * Gets a friend by their alias
+   *
    * @param name the name/alias
    * @return the friend object or null
    */
-  public Friend get(String name) {
+  public Friend get(String name)
+  {
     // lol
-    for (Friend friend : friendList) {
+    for (Friend friend : friendList)
+    {
       if (friend.username().equalsIgnoreCase(name)
-        || (friend.alias() != null
+          || (friend.alias() != null
           && friend.alias().equalsIgnoreCase(name))) return friend;
     }
 

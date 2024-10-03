@@ -15,8 +15,9 @@ import nebula.client.util.value.SettingMeta;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "NoPush",
-  description = "Prevents things from pushing you around")
-public final class NoPushModule extends Module {
+    description = "Prevents things from pushing you around")
+public final class NoPushModule extends Module
+{
 
   @SettingMeta("Blocks")
   private final Setting<Boolean> blocks = new Setting<>(
@@ -27,15 +28,19 @@ public final class NoPushModule extends Module {
       true);
 
   @Subscribe
-  private final Listener<EventBlockPush> blockPushListener = (event) -> {
-    if (event.getPlayer() != null && event.getPlayer().equals(mc.thePlayer) && blocks.value()) {
+  private final Listener<EventBlockPush> blockPushListener = (event) ->
+  {
+    if (event.getPlayer() != null && event.getPlayer().equals(mc.thePlayer) && blocks.value())
+    {
       event.setCanceled(true);
     }
   };
 
   @Subscribe
-  private final Listener<EventWaterPush> waterPushListener = (event) -> {
-    if (event.getEntity() != null && event.getEntity().equals(mc.thePlayer) && liquids.value()) {
+  private final Listener<EventWaterPush> waterPushListener = (event) ->
+  {
+    if (event.getEntity() != null && event.getEntity().equals(mc.thePlayer) && liquids.value())
+    {
       event.setCanceled(true);
     }
   };

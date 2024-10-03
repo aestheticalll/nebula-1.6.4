@@ -15,19 +15,21 @@ import nebula.client.util.value.SettingMeta;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "NoWeather",
-  description = "rain rain go away come back another day")
-public class NoWeatherModule extends Module {
+    description = "rain rain go away come back another day")
+public class NoWeatherModule extends Module
+{
 
   @SettingMeta("Thunder")
   private final Setting<Boolean> thunder = new Setting<>(
-    true);
+      true);
 
   @Subscribe
   private final Listener<EventRainStrength> rainStrength
-    = event -> event.setStrength(0.0f);
+      = event -> event.setStrength(0.0f);
 
   @Subscribe
-  private final Listener<EventThunderStrength> thunderStrength = event -> {
+  private final Listener<EventThunderStrength> thunderStrength = event ->
+  {
     if (!thunder.value()) return;
     event.setStrength(0.0f);
   };

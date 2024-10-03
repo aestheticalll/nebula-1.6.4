@@ -20,7 +20,8 @@ import static org.lwjgl.input.Keyboard.KEY_NONE;
  * @since 08/09/23
  */
 @SuppressWarnings("unused")
-public class MacroRegistry implements Registry<Macro> {
+public class MacroRegistry implements Registry<Macro>
+{
 
   /**
    * The minecraft game instance
@@ -31,65 +32,76 @@ public class MacroRegistry implements Registry<Macro> {
    * A map of the macro identifier and its instance
    */
   private final Map<String, Macro> macroIdMap = new HashMap<>();
+  @Subscribe
+  private final Listener<EventKeyInput> keyInput = event ->
+  {
+    if (event.key() <= KEY_NONE || mc.currentScreen != null) return;
+
+    for (Macro macro : macroIdMap.values())
+    {
+      if (macro.key() > KEY_NONE
+          && macro.key() == event.key()
+          && macro.type() == MacroType.KEYBOARD)
+      {
+
+        macro.setEnabled(!macro.toggled());
+      }
+    }
+  };
+  @Subscribe
+  private final Listener<EventMouseInput> mouseInput = event ->
+  {
+    if (event.button() <= -1 || mc.currentScreen != null) return;
+
+    for (Macro macro : macroIdMap.values())
+    {
+      if (macro.key() > -1
+          && macro.key() == event.button()
+          && macro.type() == MacroType.MOUSE)
+      {
+
+        macro.setEnabled(!macro.toggled());
+      }
+    }
+  };
 
   @Override
-  public void init() {
+  public void init()
+  {
     Nebula.BUS.subscribe(this);
     ConfigLoader.add(new MacroConfig());
   }
 
-  @Subscribe
-  private final Listener<EventKeyInput> keyInput = event -> {
-    if (event.key() <= KEY_NONE || mc.currentScreen != null) return;
-
-    for (Macro macro : macroIdMap.values()) {
-      if (macro.key() > KEY_NONE
-        && macro.key() == event.key()
-        && macro.type() == MacroType.KEYBOARD) {
-
-        macro.setEnabled(!macro.toggled());
-      }
-    }
-  };
-
-  @Subscribe
-  private final Listener<EventMouseInput> mouseInput = event -> {
-    if (event.button() <= -1 || mc.currentScreen != null) return;
-
-    for (Macro macro : macroIdMap.values()) {
-      if (macro.key() > -1
-        && macro.key() == event.button()
-        && macro.type() == MacroType.MOUSE) {
-
-        macro.setEnabled(!macro.toggled());
-      }
-    }
-  };
-
   @Override
-  public void add(Macro... elements) {
+  public void add(Macro... elements)
+  {
 
   }
 
   @Override
-  public void remove(Macro... elements) {
+  public void remove(Macro... elements)
+  {
 
   }
 
-  public void add(String id, Macro macro) {
+  public void add(String id, Macro macro)
+  {
     macroIdMap.put(id, macro);
   }
 
-  public Macro get(String name) {
+  public Macro get(String name)
+  {
     return macroIdMap.get(name);
   }
 
   @Override
-  public Collection<Macro> values() {
+  public Collection<Macro> values()
+  {
     return macroIdMap.values();
   }
 
-  public Map<String, Macro> mapped() {
+  public Map<String, Macro> mapped()
+  {
     return macroIdMap;
   }
 }

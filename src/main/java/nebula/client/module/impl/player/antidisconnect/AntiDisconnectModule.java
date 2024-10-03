@@ -8,6 +8,7 @@ import nebula.client.module.ModuleMeta;
  * @since 08/24/23
  */
 @ModuleMeta(name = "AntiDisconnect",
-  description = "Asks if you want to disconnect")
-public class AntiDisconnectModule extends Module {
+    description = "Asks if you want to disconnect")
+public class AntiDisconnectModule extends Module
+{
 }

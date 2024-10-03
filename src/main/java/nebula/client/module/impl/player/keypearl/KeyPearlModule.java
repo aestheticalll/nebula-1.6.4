@@ -14,21 +14,25 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "KeyPearl",
-  description = "Pearls on a key press")
-public class KeyPearlModule extends Module {
+    description = "Pearls on a key press")
+public class KeyPearlModule extends Module
+{
 
   @Override
-  public void enable() {
+  public void enable()
+  {
     super.enable();
     macro().setEnabled(false);
 
     if (mc.thePlayer == null) return;
 
     int slot = -1;
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < 9; ++i)
+    {
       ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(i);
       if (itemStack != null
-        && itemStack.getItem() instanceof ItemEnderPearl) {
+          && itemStack.getItem() instanceof ItemEnderPearl)
+      {
         slot = i;
         break;
       }
@@ -36,15 +40,16 @@ public class KeyPearlModule extends Module {
 
     if (slot == -1) return;
 
-    if (Nebula.INSTANCE.inventory.slot() != slot) {
+    if (Nebula.INSTANCE.inventory.slot() != slot)
+    {
       mc.thePlayer.sendQueue.addToSendQueue(
-        new C09PacketHeldItemChange(slot));
+          new C09PacketHeldItemChange(slot));
     }
 
     mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(
-      -1, -1, -1, 255,
-      mc.thePlayer.inventory.getStackInSlot(slot), 0.0f, 0.0f, 0.0f));
-    
+        -1, -1, -1, 255,
+        mc.thePlayer.inventory.getStackInSlot(slot), 0.0f, 0.0f, 0.0f));
+
     Nebula.INSTANCE.inventory.sync();
   }
 }

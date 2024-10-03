@@ -12,16 +12,19 @@ import nebula.client.module.ModuleMeta;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "AutoWalk", description = "Automatically walks for you")
-public class AutoWalkModule extends Module {
+public class AutoWalkModule extends Module
+{
+
+  @Subscribe
+  private final Listener<EventUpdate> update = event ->
+  {
+    mc.gameSettings.keyBindForward.pressed = true;
+  };
 
   @Override
-  public void disable() {
+  public void disable()
+  {
     super.disable();
     mc.gameSettings.keyBindForward.pressed = false;
   }
-
-  @Subscribe
-  private final Listener<EventUpdate> update = event -> {
-    mc.gameSettings.keyBindForward.pressed = true;
-  };
 }

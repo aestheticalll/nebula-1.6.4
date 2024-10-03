@@ -4,13 +4,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
 /**
+ * @param username the username of the cracked account
  * @author Gavin
  * @since 08/13/23
- * @param username the username of the cracked account
  */
-public record Account(String username) {
+public record Account(String username)
+{
 
-  public void login() {
+  public void login()
+  {
     Minecraft.getMinecraft().setSession(new Session(username, "0", "legacy"));
   }
 }

@@ -12,7 +12,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Subscribe {
+public @interface Subscribe
+{
   /**
    * The priority of this event
    *

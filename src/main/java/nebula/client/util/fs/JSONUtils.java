@@ -8,7 +8,8 @@ import com.google.gson.JsonElement;
  * @author Gavin
  * @since 08/09/23
  */
-public class JSONUtils {
+public class JSONUtils
+{
 
   public static final Gson GSON = new GsonBuilder()
       .setPrettyPrinting()
@@ -16,11 +17,13 @@ public class JSONUtils {
       .serializeSpecialFloatingPointValues()
       .create();
 
-  public static String json(JsonElement element) {
+  public static String json(JsonElement element)
+  {
     return GSON.toJson(element);
   }
 
-  public static <T extends JsonElement> T parse(String buffer, Class<T> clazz) {
+  public static <T extends JsonElement> T parse(String buffer, Class<T> clazz)
+  {
     return GSON.fromJson(buffer, clazz);
   }
 }

@@ -14,17 +14,20 @@ import nebula.client.util.value.SettingMeta;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "Sprint", defaultState = true)
-public class SprintModule extends Module {
+public class SprintModule extends Module
+{
 
   @SettingMeta("Rage")
   private final Setting<Boolean> rage = new Setting<>(
-    false);
+      false);
 
   @Subscribe
-  private final Listener<EventUpdate> update = event -> {
+  private final Listener<EventUpdate> update = event ->
+  {
     mc.gameSettings.keyBindSprint.pressed = true;
 
-    if (rage.value() && !mc.thePlayer.isSprinting()) {
+    if (rage.value() && !mc.thePlayer.isSprinting())
+    {
       mc.thePlayer.setSprinting(true);
     }
   };

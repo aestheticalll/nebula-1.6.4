@@ -7,7 +7,8 @@ import net.minecraft.client.Minecraft;
  * @author Gavin
  * @since 08/09/23
  */
-public abstract class Command implements CommandExecutor {
+public abstract class Command implements CommandExecutor
+{
 
   /**
    * The minecraft game instance
@@ -16,8 +17,10 @@ public abstract class Command implements CommandExecutor {
 
   private final CommandMeta meta;
 
-  public Command() {
-    if (!getClass().isAnnotationPresent(CommandMeta.class)) {
+  public Command()
+  {
+    if (!getClass().isAnnotationPresent(CommandMeta.class))
+    {
       RuntimeException e = new RuntimeException("@CommandMeta needs to be at the top of " + getClass());
       Sentry.captureException(e);
       throw e;
@@ -26,7 +29,8 @@ public abstract class Command implements CommandExecutor {
     meta = getClass().getDeclaredAnnotation(CommandMeta.class);
   }
 
-  public CommandMeta meta() {
+  public CommandMeta meta()
+  {
     return meta;
   }
 }

@@ -8,6 +8,7 @@ import nebula.client.module.ModuleMeta;
  * @since 08/24/23
  */
 @ModuleMeta(name = "AppleSkin",
-  description = "Shows food exhaustion")
-public class AppleSkinModule extends Module {
+    description = "Shows food exhaustion")
+public class AppleSkinModule extends Module
+{
 }

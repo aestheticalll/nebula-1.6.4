@@ -8,8 +8,11 @@ import java.lang.annotation.RetentionPolicy;
  * @since 08/10/23
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CommandMeta {
+public @interface CommandMeta
+{
   String[] aliases();
+
   String description() default "No description was provided for this feature";
+
   String syntax() default "";
 }

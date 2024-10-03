@@ -19,32 +19,29 @@ import static java.lang.Integer.MAX_VALUE;
  */
 @ModuleMeta(name = "FullBright",
     description = "Makes the game bright")
-public final class FullBrightModule extends Module {
+public final class FullBrightModule extends Module
+{
 
   @SettingMeta("Mode")
   private final Setting<FullBrightMode> mode = new Setting<>(
       FullBrightMode.GAMMA);
-
-  private boolean clientPotion;
-
-  @Override
-  public void disable() {
-    super.disable();
-
-    if (clientPotion
-        && mc.thePlayer != null
-        && mc.thePlayer.isPotionActive(Potion.nightVision)) {
-      mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
-    }
-
-    clientPotion = false;
-  }
-
   @Subscribe
-  private final Listener<EventUpdate> updateListener = event -> {
-    if (mode.value() == FullBrightMode.POTION) {
+  private final Listener<EventWorldGamma> worldGammaListener = event ->
+  {
+    if (mode.value() == FullBrightMode.GAMMA)
+    {
+      event.setGamma(10.0f);
+    }
+  };
+  private boolean clientPotion;
+  @Subscribe
+  private final Listener<EventUpdate> updateListener = event ->
+  {
+    if (mode.value() == FullBrightMode.POTION)
+    {
 
-      if (!mc.thePlayer.isPotionActive(Potion.nightVision)) {
+      if (!mc.thePlayer.isPotionActive(Potion.nightVision))
+      {
         clientPotion = true;
 
         final PotionEffect effect = new PotionEffect(
@@ -54,8 +51,10 @@ public final class FullBrightModule extends Module {
         mc.thePlayer.addPotionEffect(effect);
       }
 
-    } else {
-      if (clientPotion && mc.thePlayer.isPotionActive(Potion.nightVision)) {
+    } else
+    {
+      if (clientPotion && mc.thePlayer.isPotionActive(Potion.nightVision))
+      {
         mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
         clientPotion = false;
       }
@@ -63,10 +62,18 @@ public final class FullBrightModule extends Module {
     }
   };
 
-  @Subscribe
-  private final Listener<EventWorldGamma> worldGammaListener = event -> {
-    if (mode.value() == FullBrightMode.GAMMA) {
-      event.setGamma(10.0f);
+  @Override
+  public void disable()
+  {
+    super.disable();
+
+    if (clientPotion
+        && mc.thePlayer != null
+        && mc.thePlayer.isPotionActive(Potion.nightVision))
+    {
+      mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
     }
-  };
+
+    clientPotion = false;
+  }
 }

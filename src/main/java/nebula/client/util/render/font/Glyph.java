@@ -8,4 +8,6 @@ public record Glyph(char c,
                     double x,
                     double y,
                     double width,
-                    double height) { }
+                    double height)
+{
+}

@@ -724,7 +724,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleBlockChange(S23PacketBlockChange p_147234_1_)
     {
-        this.clientWorldController.func_147492_c(p_147234_1_.func_148879_d(), p_147234_1_.func_148878_e(), p_147234_1_.func_148877_f(), p_147234_1_.func_148880_c(), p_147234_1_.func_148881_g());
+        this.clientWorldController.func_147492_c(p_147234_1_.getX(), p_147234_1_.getY(), p_147234_1_.getZ(), p_147234_1_.getBlock(), p_147234_1_.func_148881_g());
     }
 
     /**

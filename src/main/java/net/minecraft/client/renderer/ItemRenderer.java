@@ -1,7 +1,9 @@
 package net.minecraft.client.renderer;
 
 import nebula.client.Nebula;
+import nebula.client.listener.event.render.EventRenderHeldItem;
 import nebula.client.listener.event.render.overlay.EventRenderBurning;
+import nebula.client.util.chat.Printer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -370,9 +372,12 @@ public class ItemRenderer
             GL11.glPushMatrix();
             var22 = 0.8F;
 
-            if (var3.getItemInUseCount() > 0)
+            final EventRenderHeldItem event = new EventRenderHeldItem(var8, var8.getItemUseAction());
+            Nebula.BUS.dispatch(event);
+
+            if (var3.getItemInUseCount() > 0 || event.isCanceled())
             {
-                EnumAction var23 = var8.getItemUseAction();
+                EnumAction var23 = event.getAction();
 
                 if (var23 == EnumAction.eat || var23 == EnumAction.drink)
                 {
@@ -412,9 +417,9 @@ public class ItemRenderer
             float var19;
             float var20;
 
-            if (var3.getItemInUseCount() > 0)
+            if (var3.getItemInUseCount() > 0 || event.isCanceled())
             {
-                EnumAction var26 = var8.getItemUseAction();
+                EnumAction var26 = event.getAction();
 
                 if (var26 == EnumAction.block)
                 {

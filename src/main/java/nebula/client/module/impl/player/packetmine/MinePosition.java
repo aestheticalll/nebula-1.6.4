@@ -1,23 +1,26 @@
 package nebula.client.module.impl.player.packetmine;
 
 /**
- * @author Gavin
- * @since 08/18/23
  * @param x
  * @param y
  * @param z
  * @param face the face the block was broken at
+ * @author Gavin
+ * @since 08/18/23
  */
-public record MinePosition(int x, int y, int z, int face) {
+public record MinePosition(int x, int y, int z, int face)
+{
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(Object o)
+  {
     if (!(o instanceof MinePosition)) return false;
     return o.hashCode() == hashCode();
   }
 
   @Override
-  public int hashCode() {
+  public int hashCode()
+  {
     int result = x;
     result = 31 * result + y;
     result = 31 * result + z;

@@ -214,4 +214,9 @@ public class ItemBlock extends Item
             this.field_150938_b = par1IconRegister.registerIcon(var2);
         }
     }
+
+    public Block getBlock()
+    {
+      return field_150939_a;
+    }
 }

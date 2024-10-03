@@ -8,13 +8,15 @@ import net.minecraft.inventory.Slot;
  * @author Gavin
  * @since 08/18/23
  */
-public class EventSlotClick extends Cancelable {
+public class EventSlotClick extends Cancelable
+{
 
   private final Slot containerSlot;
   private final GuiContainer gui;
   private int windowId, slot, mouseButton, action;
 
-  public EventSlotClick(Slot containerSlot, GuiContainer gui, int windowId, int slot, int mouseButton, int action) {
+  public EventSlotClick(Slot containerSlot, GuiContainer gui, int windowId, int slot, int mouseButton, int action)
+  {
     this.containerSlot = containerSlot;
     this.gui = gui;
     this.windowId = windowId;
@@ -23,43 +25,53 @@ public class EventSlotClick extends Cancelable {
     this.action = action;
   }
 
-  public Slot containerSlot() {
+  public Slot containerSlot()
+  {
     return containerSlot;
   }
 
-  public GuiContainer gui() {
+  public GuiContainer gui()
+  {
     return gui;
   }
 
-  public int windowId() {
+  public int windowId()
+  {
     return windowId;
   }
 
-  public void setWindowId(int windowId) {
+  public void setWindowId(int windowId)
+  {
     this.windowId = windowId;
   }
 
-  public int slot() {
+  public int slot()
+  {
     return slot;
   }
 
-  public void setSlot(int slot) {
+  public void setSlot(int slot)
+  {
     this.slot = slot;
   }
 
-  public int mouseButton() {
+  public int mouseButton()
+  {
     return mouseButton;
   }
 
-  public void setMouseButton(int mouseButton) {
+  public void setMouseButton(int mouseButton)
+  {
     this.mouseButton = mouseButton;
   }
 
-  public int action() {
+  public int action()
+  {
     return action;
   }
 
-  public void setAction(int action) {
+  public void setAction(int action)
+  {
     this.action = action;
   }
 }

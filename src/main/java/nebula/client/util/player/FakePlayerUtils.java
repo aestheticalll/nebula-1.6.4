@@ -13,7 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Gavin
  * @since 08/24/23
  */
-public class FakePlayerUtils {
+public class FakePlayerUtils
+{
 
   /**
    * A map containing the fake player id and its instance
@@ -27,28 +28,33 @@ public class FakePlayerUtils {
 
   /**
    * Spawns a fake player
-   * @param id the entity id of the fake player
+   *
+   * @param id   the entity id of the fake player
    * @param copy the entity to copy (nullable)
    */
-  public static void spawn(int id, EntityPlayer copy) {
-    if (!fakes.containsKey(id) && mc.theWorld != null) {
+  public static void spawn(int id, EntityPlayer copy)
+  {
+    if (!fakes.containsKey(id) && mc.theWorld != null)
+    {
 
       EntityOtherPlayerMP fake = new EntityOtherPlayerMP(mc.theWorld,
-        copy == null
-          ? new GameProfile(UUID.randomUUID().toString(), "FakePlayer" + id)
-          : copy.getGameProfile());
+          copy == null
+              ? new GameProfile(UUID.randomUUID().toString(), "FakePlayer" + id)
+              : copy.getGameProfile());
 
-      if (copy != null) {
+      if (copy != null)
+      {
         fake.setHealth(copy.getHealth());
         fake.setAbsorptionAmount(copy.getAbsorptionAmount());
 
         fake.copyLocationAndAnglesFrom(copy);
         fake.inventory.copyInventory(copy.inventory);
 
-        if (copy.equals(mc.thePlayer)) {
+        if (copy.equals(mc.thePlayer))
+        {
           fake.setPosition(mc.thePlayer.posX,
-            mc.thePlayer.boundingBox.minY,
-            mc.thePlayer.posZ);
+              mc.thePlayer.boundingBox.minY,
+              mc.thePlayer.posZ);
         }
       }
 
@@ -63,11 +69,15 @@ public class FakePlayerUtils {
 
   /**
    * Despawns a fake player
+   *
    * @param id the entity id of the fake player
    */
-  public static void despawn(int id) {
-    if (fakes.containsKey(id) && mc.theWorld != null) {
-      if (mc.theWorld.getEntityByID(id) == null) {
+  public static void despawn(int id)
+  {
+    if (fakes.containsKey(id) && mc.theWorld != null)
+    {
+      if (mc.theWorld.getEntityByID(id) == null)
+      {
         fakes.remove(id);
         return;
       }
@@ -80,11 +90,13 @@ public class FakePlayerUtils {
     }
   }
 
-  public static boolean isFake(int id) {
+  public static boolean isFake(int id)
+  {
     return fakes.containsKey(id);
   }
 
-  public static void clear() {
+  public static void clear()
+  {
     fakes.clear();
   }
 }

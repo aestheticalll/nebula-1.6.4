@@ -253,4 +253,14 @@ public class Vec3
         this.yCoord = var6;
         this.zCoord = var8;
     }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (!(obj instanceof Vec3 vec3))
+    {
+      return false;
+    }
+    return vec3.xCoord == xCoord && vec3.yCoord == yCoord && vec3.zCoord == zCoord;
+  }
 }

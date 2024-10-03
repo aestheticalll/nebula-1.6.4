@@ -15,31 +15,39 @@ import java.util.Map;
  * @author Gavin
  * @since 08/09/23
  */
-public class MacroConfig implements Config {
+public class MacroConfig implements Config
+{
   @Override
-  public void save() {
+  public void save()
+  {
     JsonObject object = new JsonObject();
 
     Map<String, Macro> macroIdMap = Nebula.INSTANCE.macro.mapped();
-    for (String id : macroIdMap.keySet()) {
+    for (String id : macroIdMap.keySet())
+    {
       object.add(id, macroIdMap.get(id).save());
     }
 
-    try {
+    try
+    {
       FileUtils.writeFile(file(), JSONUtils.json(object));
-    } catch (IOException e) {
+    } catch (IOException e)
+    {
       e.printStackTrace();
     }
   }
 
   @Override
-  public void load() {
+  public void load()
+  {
     if (!file().exists()) return;
 
     String content;
-    try {
+    try
+    {
       content = FileUtils.readFile(file());
-    } catch (Exception e) {
+    } catch (Exception e)
+    {
       e.printStackTrace();
       return;
     }
@@ -49,7 +57,8 @@ public class MacroConfig implements Config {
     JsonObject object = JSONUtils.parse(content, JsonObject.class);
 
     Map<String, Macro> macroIdMap = Nebula.INSTANCE.macro.mapped();
-    for (String key : macroIdMap.keySet()) {
+    for (String key : macroIdMap.keySet())
+    {
       JsonElement element = object.get(key);
       if (element == null) continue;
 
@@ -58,7 +67,8 @@ public class MacroConfig implements Config {
   }
 
   @Override
-  public File file() {
+  public File file()
+  {
     return new File(FileUtils.ROOT, "macros.json");
   }
 }

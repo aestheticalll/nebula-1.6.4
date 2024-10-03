@@ -9,7 +9,7 @@ import nebula.client.util.value.Setting;
 import nebula.client.util.value.SettingMeta;
 import net.minecraft.entity.player.EntityPlayer;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -19,41 +19,41 @@ import static org.lwjgl.opengl.GL11.*;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "Chams",
-  description = "Show visible entities")
-public class ChamsModule extends Module {
+    description = "Show visible entities")
+public class ChamsModule extends Module
+{
 
   // colored
   @SettingMeta("Colored")
   private final Setting<Boolean> colored = new Setting<>(
-    false);
+      false);
   @SettingMeta("Mode")
   private final Setting<ChamsMode> mode = new Setting<>(
-    colored::value, ChamsMode.FILL);
+      colored::value, ChamsMode.FILL);
   @SettingMeta("Visible Color")
   private final Setting<Color> visibleColor = new Setting<>(
-    colored::value, new Color(0, 255, 0));
+      colored::value, new Color(0, 255, 0));
   @SettingMeta("Hidden Color")
   private final Setting<Color> hiddenColor = new Setting<>(
-    colored::value, new Color(255, 0, 0));
-
+      colored::value, new Color(255, 0, 0));
   // render settings
   @SettingMeta("Textured")
   private final Setting<Boolean> textured = new Setting<>(
-    true);
+      true);
   @SettingMeta("Lighting")
   private final Setting<Boolean> lighting = new Setting<>(
-    false);
-
+      false);
   // types/entities
   @SettingMeta("Players")
   private final Setting<Boolean> players = new Setting<>(
-    true);
+      true);
   @SettingMeta("Containers")
   private final Setting<Boolean> containers = new Setting<>(
-    true);
+      true);
 
   @Subscribe
-  private final Listener<EventRenderLiving> renderLiving = event -> {
+  private final Listener<EventRenderLiving> renderLiving = event ->
+  {
     if (!(event.entity() instanceof EntityPlayer) || !players.value()) return;
 
     event.setCanceled(true);
@@ -61,17 +61,21 @@ public class ChamsModule extends Module {
     glPushMatrix();
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    if (!textured.value()) {
+    if (!textured.value())
+    {
       glDisable(GL_TEXTURE_2D);
     }
 
-    if (colored.value()) {
+    if (colored.value())
+    {
 
-      if (mode.value() == ChamsMode.LINE && textured.value()) {
+      if (mode.value() == ChamsMode.LINE && textured.value())
+      {
         event.renderModel();
       }
 
-      if (!lighting.value()) {
+      if (!lighting.value())
+      {
         glDisable(GL_LIGHTING);
       }
 
@@ -82,9 +86,9 @@ public class ChamsModule extends Module {
 
       Color c = hiddenColor.value();
       glColor4f(c.getRed() / 255.0f,
-        c.getGreen() / 255.0f,
-        c.getBlue() / 255.0f,
-        1);
+          c.getGreen() / 255.0f,
+          c.getBlue() / 255.0f,
+          1);
 
       event.renderModel();
 
@@ -94,16 +98,18 @@ public class ChamsModule extends Module {
       glPolygonMode(GL_FRONT_AND_BACK, mode.value().cap());
       c = visibleColor.value();
       glColor4f(c.getRed() / 255.0f,
-        c.getGreen() / 255.0f,
-        c.getBlue() / 255.0f,
-        1);
+          c.getGreen() / 255.0f,
+          c.getBlue() / 255.0f,
+          1);
 
       event.renderModel();
 
-      if (!lighting.value()) {
+      if (!lighting.value())
+      {
         glEnable(GL_LIGHTING);
       }
-    } else {
+    } else
+    {
       glEnable(GL_POLYGON_OFFSET_FILL);
       glPolygonOffset(1.0f, -110000.0f);
 
@@ -113,7 +119,8 @@ public class ChamsModule extends Module {
       glDisable(GL_POLYGON_OFFSET_FILL);
     }
 
-    if (!textured.value()) {
+    if (!textured.value())
+    {
       glEnable(GL_TEXTURE_2D);
     }
 
@@ -121,5 +128,4 @@ public class ChamsModule extends Module {
     glPopMatrix();
 
   };
-
 }

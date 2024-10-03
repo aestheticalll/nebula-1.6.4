@@ -5,11 +5,11 @@ import com.google.gson.JsonObject;
 import io.sentry.Sentry;
 import nebula.client.module.impl.combat.aura.AuraModule;
 import nebula.client.module.impl.combat.autologout.AutoLogoutModule;
+import nebula.client.module.impl.combat.burrow.BurrowModule;
 import nebula.client.module.impl.combat.criticals.CriticalsModule;
 import nebula.client.module.impl.combat.regen.RegenModule;
 import nebula.client.module.impl.combat.velocity.VelocityModule;
 import nebula.client.module.impl.exploit.fastuse.FastUseModule;
-import nebula.client.module.impl.exploit.franky.FrankyModule;
 import nebula.client.module.impl.exploit.freeze.FreezeModule;
 import nebula.client.module.impl.exploit.noc03.NoC03Module;
 import nebula.client.module.impl.exploit.nohunger.NoHungerModule;
@@ -18,7 +18,6 @@ import nebula.client.module.impl.exploit.phase.PhaseModule;
 import nebula.client.module.impl.exploit.portalchat.PortalChatModule;
 import nebula.client.module.impl.exploit.thunderlocator.ThunderLocatorModule;
 import nebula.client.module.impl.movement.autowalk.AutoWalkModule;
-import nebula.client.module.impl.movement.gravity.GravityModule;
 import nebula.client.module.impl.movement.guimove.GuiMoveModule;
 import nebula.client.module.impl.movement.icespeed.IceSpeedModule;
 import nebula.client.module.impl.movement.jesus.JesusModule;
@@ -39,8 +38,8 @@ import nebula.client.module.impl.player.keypearl.KeyPearlModule;
 import nebula.client.module.impl.player.nofall.NoFallModule;
 import nebula.client.module.impl.player.novoid.NoVoidModule;
 import nebula.client.module.impl.player.packetmine.PacketMineModule;
-import nebula.client.module.impl.player.pathfinder.PathFinderModule;
 import nebula.client.module.impl.player.scaffold.ScaffoldModule;
+import nebula.client.module.impl.player.truedurability.TrueDurabilityModule;
 import nebula.client.module.impl.render.appleskin.AppleSkinModule;
 import nebula.client.module.impl.render.chams.ChamsModule;
 import nebula.client.module.impl.render.chat.ChatModule;
@@ -71,7 +70,8 @@ import static nebula.client.util.fs.JSONUtils.GSON;
  * @since 08/09/23
  */
 @SuppressWarnings("unchecked")
-public class ModuleRegistry implements Registry<Module> {
+public class ModuleRegistry implements Registry<Module>
+{
 
   /**
    * The package containing the module implementations
@@ -79,7 +79,7 @@ public class ModuleRegistry implements Registry<Module> {
   public static final String MODULE_IMPL = "nebula.client.module.impl";
 
   private static final File CONFIGS_FOLDER = new File(
-    FileUtils.ROOT, "configs");
+      FileUtils.ROOT, "configs");
 
   /**
    * The logger for the registry
@@ -90,32 +90,17 @@ public class ModuleRegistry implements Registry<Module> {
   private final Set<Module> moduleSet = new LinkedHashSet<>();
 
   @Override
-  public void init() {
-//    try {
-//      Reflections.classesInPackage(MODULE_IMPL, Module.class)
-//        .forEach((clazz) -> {
-//          try {
-//            add((Module) clazz.getConstructors()[0].newInstance());
-//          } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-//            LOGGER.error("Failed to invoke constructor on {}", clazz);
-//            e.printStackTrace();
-//            Sentry.captureException(e);
-//          }
-//        });
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      Sentry.captureException(e);
-//    }
-
+  public void init()
+  {
     {
       add(new AuraModule());
       add(new AutoLogoutModule());
+      add(new BurrowModule());
       add(new CriticalsModule());
       add(new RegenModule());
       add(new VelocityModule());
 
       add(new FastUseModule());
-      add(new FrankyModule());
       add(new FreezeModule());
       add(new NoC03Module());
       add(new NoHungerModule());
@@ -125,7 +110,6 @@ public class ModuleRegistry implements Registry<Module> {
       add(new ThunderLocatorModule());
 
       add(new AutoWalkModule());
-      add(new GravityModule());
       add(new GuiMoveModule());
       add(new IceSpeedModule());
       add(new JesusModule());
@@ -148,6 +132,7 @@ public class ModuleRegistry implements Registry<Module> {
       add(new NoVoidModule());
       add(new PacketMineModule());
       add(new ScaffoldModule());
+      add(new TrueDurabilityModule());
 
       add(new AppleSkinModule());
       add(new ChamsModule());
@@ -168,23 +153,27 @@ public class ModuleRegistry implements Registry<Module> {
 
     moduleSet.forEach(Module::init);
 
-    if (!CONFIGS_FOLDER.exists()) {
+    if (!CONFIGS_FOLDER.exists())
+    {
       boolean result = CONFIGS_FOLDER.mkdir();
       LOGGER.info("Created {} {}", CONFIGS_FOLDER,
-        result ? "successfully" : "unsuccessfully");
+          result ? "successfully" : "unsuccessfully");
     }
 
     LOGGER.info(load("default"));
   }
 
-  public String load(String configName) {
+  public String load(String configName)
+  {
     File file = new File(CONFIGS_FOLDER, configName + ".cfg");
     if (!file.exists()) return "No config found with name \"" + configName + "\"";
 
     String content;
-    try {
+    try
+    {
       content = FileUtils.readFile(file);
-    } catch (IOException e) {
+    } catch (IOException e)
+    {
       LOGGER.error("Failed to read config file {}", file);
       e.printStackTrace();
       Sentry.captureException(e);
@@ -194,8 +183,10 @@ public class ModuleRegistry implements Registry<Module> {
 
     JsonObject object = JSONUtils.parse(content, JsonObject.class);
 
-    for (Module module : values()) {
-      if (!object.has(module.meta().name())) {
+    for (Module module : values())
+    {
+      if (!object.has(module.meta().name()))
+      {
         LOGGER.info("Missing element for {}", module.meta().name());
         continue;
       }
@@ -207,18 +198,22 @@ public class ModuleRegistry implements Registry<Module> {
     return "Loaded config \"" + configName + "\"";
   }
 
-  public String save(String configName) throws IOException {
+  public String save(String configName) throws IOException
+  {
     File file = new File(CONFIGS_FOLDER, configName + ".cfg");
-    if (!file.exists()) {
+    if (!file.exists())
+    {
       boolean result = file.createNewFile();
       if (!result) return "Failed to create file";
     }
 
     JsonObject object = new JsonObject();
 
-    for (Module module : values()) {
+    for (Module module : values())
+    {
       JsonElement element = module.save();
-      if (element == null) {
+      if (element == null)
+      {
         LOGGER.info("Missing element for {}", module.meta().name());
         continue;
       }
@@ -231,24 +226,29 @@ public class ModuleRegistry implements Registry<Module> {
   }
 
   @Override
-  public void add(Module... elements) {
-    for (Module element : elements) {
+  public void add(Module... elements)
+  {
+    for (Module element : elements)
+    {
       moduleInstanceMap.put(element.getClass(), element);
       moduleSet.add(element);
     }
   }
 
   @Override
-  public void remove(Module... elements) {
+  public void remove(Module... elements)
+  {
 
   }
 
   @Override
-  public Collection<Module> values() {
+  public Collection<Module> values()
+  {
     return moduleSet;
   }
 
-  public <T extends Module> T get(Class<T> clazz) {
+  public <T extends Module> T get(Class<T> clazz)
+  {
     return (T) moduleInstanceMap.get(clazz);
   }
 }

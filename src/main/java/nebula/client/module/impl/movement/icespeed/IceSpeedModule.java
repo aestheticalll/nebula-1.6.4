@@ -13,14 +13,17 @@ import net.minecraft.block.BlockIce;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "IceSpeed",
-  description = "Makes you go zoom on ice",
-  defaultState = true)
-public class IceSpeedModule extends Module {
+    description = "Makes you go zoom on ice",
+    defaultState = true)
+public class IceSpeedModule extends Module
+{
   public static final float NCP_ICE_MAX = 0.391f; // this could prolly be faster but yk
 
   @Subscribe
-  private final Listener<EventMoveBlockFriction> moveBlockFriction = event -> {
-    if (event.block() instanceof BlockIce) {
+  private final Listener<EventMoveBlockFriction> moveBlockFriction = event ->
+  {
+    if (event.block() instanceof BlockIce)
+    {
       event.setSlipperiness(NCP_ICE_MAX);
     }
   };

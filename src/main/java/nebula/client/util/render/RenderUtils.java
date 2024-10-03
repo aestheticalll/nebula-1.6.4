@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -16,14 +16,16 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Gavin
  * @since 08/14/23
  */
-public class RenderUtils {
+public class RenderUtils
+{
 
   /**
    * The cached ScaledResolution object from {@link net.minecraft.client.gui.GuiIngame}
    */
   public static ScaledResolution resolution;
 
-  public static void rect(double x, double y, double width, double height, int color) {
+  public static void rect(double x, double y, double width, double height, int color)
+  {
     glPushMatrix();
 
     glDisable(GL_TEXTURE_2D);
@@ -45,7 +47,8 @@ public class RenderUtils {
     glPopMatrix();
   }
 
-  public static void gradientRect(double x, double y, double width, double height, int topColor, int bottomColor) {
+  public static void gradientRect(double x, double y, double width, double height, int topColor, int bottomColor)
+  {
     glPushMatrix();
 
     glDisable(GL_TEXTURE_2D);
@@ -68,25 +71,28 @@ public class RenderUtils {
     glPopMatrix();
   }
 
-  public static void color(int hex) {
-    float alpha = (float)(hex >> 24 & 0xFF) / 255.0f;
-    float red = (float)(hex >> 16 & 0xFF) / 255.0f;
-    float green = (float)(hex >> 8 & 0xFF) / 255.0f;
-    float blue = (float)(hex & 0xFF) / 255.0f;
+  public static void color(int hex)
+  {
+    float alpha = (float) (hex >> 24 & 0xFF) / 255.0f;
+    float red = (float) (hex >> 16 & 0xFF) / 255.0f;
+    float green = (float) (hex >> 8 & 0xFF) / 255.0f;
+    float blue = (float) (hex & 0xFF) / 255.0f;
 
     glColor4f(red, green, blue, alpha);
   }
 
   /**
    * Renders a texture to the screen
+   *
    * @param textureId the texture id
-   * @param x the x render coordinate
-   * @param y the y render coordinate
-   * @param w the width to draw the texture
-   * @param h the height to draw the texture
-   * @param color the color/tint to give to the rendered texture
+   * @param x         the x render coordinate
+   * @param y         the y render coordinate
+   * @param w         the width to draw the texture
+   * @param h         the height to draw the texture
+   * @param color     the color/tint to give to the rendered texture
    */
-  public static void renderTexture(int textureId, double x, double y, int w, int h, Color color) {
+  public static void renderTexture(int textureId, double x, double y, int w, int h, Color color)
+  {
     glPushMatrix();
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -110,14 +116,16 @@ public class RenderUtils {
 
   /**
    * Renders a texture to the screen
+   *
    * @param location the resource location object
-   * @param x the x render coordinate
-   * @param y the y render coordinate
-   * @param w the width to draw the texture
-   * @param h the height to draw the texture
-   * @param color the color/tint to give to the rendered texture
+   * @param x        the x render coordinate
+   * @param y        the y render coordinate
+   * @param w        the width to draw the texture
+   * @param h        the height to draw the texture
+   * @param color    the color/tint to give to the rendered texture
    */
-  public static void renderTexture(ResourceLocation location, double x, double y, int w, int h, Color color) {
+  public static void renderTexture(ResourceLocation location, double x, double y, int w, int h, Color color)
+  {
     glPushMatrix();
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -131,9 +139,9 @@ public class RenderUtils {
     // Minecraft#draw
     float f = 0.00390625f;
     glColor4f(color.getRed() * f,
-      color.getGreen() * f,
-      color.getBlue() * f,
-      color.getAlpha() * f);
+        color.getGreen() * f,
+        color.getBlue() * f,
+        color.getAlpha() * f);
     Gui.func_146110_a((int) x, (int) y, 0, 0, w, h, w, h);
 
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -142,7 +150,8 @@ public class RenderUtils {
     glPopMatrix();
   }
 
-  public static void filledAabb(AxisAlignedBB box) {
+  public static void filledAabb(AxisAlignedBB box)
+  {
     Tessellator tessellator = Tessellator.instance;
 
     tessellator.startDrawing(GL_QUADS);
@@ -190,7 +199,8 @@ public class RenderUtils {
     tessellator.draw();
   }
 
-  public static void outlinedAabb(AxisAlignedBB box) {
+  public static void outlinedAabb(AxisAlignedBB box)
+  {
     Tessellator tessellator = Tessellator.instance;
 
     tessellator.startDrawing(GL_LINE_STRIP);

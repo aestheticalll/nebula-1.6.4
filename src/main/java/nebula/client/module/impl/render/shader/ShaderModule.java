@@ -8,7 +8,6 @@ import nebula.client.listener.event.render.EventRenderEntity;
 import nebula.client.module.Module;
 import nebula.client.module.ModuleMeta;
 import nebula.client.module.impl.render.hud.HUDModule;
-import nebula.client.util.chat.Printer;
 import nebula.client.util.render.ColorUtils;
 import nebula.client.util.render.RenderUtils;
 import nebula.client.util.render.shader.Shader;
@@ -24,7 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,32 +35,42 @@ import static org.lwjgl.opengl.GL11.*;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "Shader",
-  description = "Renders a shader overlay",
-  defaultState = true)
-public class ShaderModule extends Module {
+    description = "Renders a shader overlay",
+    defaultState = true)
+public class ShaderModule extends Module
+{
 
   @SettingMeta("Distance")
   private final Setting<Double> distance = new Setting<>(
-    50.0, 6.0, 200.0, 0.1);
+      50.0, 6.0, 200.0, 0.1);
 
   private final Shader shader = new Shader(
-    "/assets/minecraft/nebula/shader/vertex.vsh",
-    "/assets/minecraft/nebula/shader/esp.fsh",
-    (s) -> {
-      s.createUniform("texture");
-      s.createUniform("texelSize");
-      s.createUniform("color");
-      s.createUniform("radius");
-      s.createUniform("opacity");
-    });
-
+      "/assets/minecraft/nebula/shader/vertex.vsh",
+      "/assets/minecraft/nebula/shader/esp.fsh",
+      (s) ->
+      {
+        s.createUniform("texture");
+        s.createUniform("texelSize");
+        s.createUniform("color");
+        s.createUniform("radius");
+        s.createUniform("opacity");
+      });
+  @Subscribe
+  private final Listener<EventRenderEntity> renderEntity = event ->
+  {
+    if (!canRenderEntity(event.entity()))
+    {
+      event.setCanceled(true);
+    }
+  };
   private Framebuffer fb;
   private int width, height, scale;
-
   @Subscribe
-  private final Listener<EventRender3D> render3D = event -> {
+  private final Listener<EventRender3D> render3D = event ->
+  {
     // shaders do not work with optifine fast render
-    if (mc.gameSettings.ofFastRender) {
+    if (mc.gameSettings.ofFastRender)
+    {
       macro().setEnabled(false);
       return;
     }
@@ -74,12 +83,14 @@ public class ShaderModule extends Module {
 
     glEnable(GL_ALPHA_TEST);
 
-    if (fb != null) {
+    if (fb != null)
+    {
       fb.framebufferClear();
 
       if (r.getScaledWidth() != width
-        || r.getScaledHeight() != height
-        || r.getScaleFactor() != scale) {
+          || r.getScaledHeight() != height
+          || r.getScaleFactor() != scale)
+      {
 
         width = r.getScaledWidth();
         height = r.getScaledHeight();
@@ -88,7 +99,8 @@ public class ShaderModule extends Module {
         fb.deleteFramebuffer();
         fb = new Framebuffer(mc.displayWidth, mc.displayHeight, true);
       }
-    } else {
+    } else
+    {
       fb = new Framebuffer(mc.displayWidth, mc.displayHeight, true);
     }
 
@@ -98,8 +110,10 @@ public class ShaderModule extends Module {
     Render.renderShadow = false;
 
     List<Entity> entities = new ArrayList<>(mc.theWorld.loadedEntityList);
-    for (Entity entity : entities) {
-      if (canRenderEntity(entity)) {
+    for (Entity entity : entities)
+    {
+      if (canRenderEntity(entity))
+      {
         RenderManager.instance.renderEntityStatic(entity, event.tickDelta(), true);
         //renderEntity(entity, event.tickDelta());
       }
@@ -146,18 +160,14 @@ public class ShaderModule extends Module {
     glPopMatrix();
   };
 
-  @Subscribe
-  private final Listener<EventRenderEntity> renderEntity = event -> {
-    if (!canRenderEntity(event.entity())) {
-      event.setCanceled(true);
-    }
-  };
-
   // TODO: this doesnt render the entity lol...
-  private void renderEntity(Entity e, float tickDelta) {
+  private void renderEntity(Entity e, float tickDelta)
+  {
     Render render = RenderManager.instance.getEntityRenderObject(e);
-    if (render != null && RenderManager.instance.renderEngine != null) {
-      if (e.ticksExisted == 0) {
+    if (render != null && RenderManager.instance.renderEngine != null)
+    {
+      if (e.ticksExisted == 0)
+      {
         e.lastTickPosX = e.posX;
         e.lastTickPosY = e.posY;
         e.lastTickPosZ = e.posZ;
@@ -176,20 +186,23 @@ public class ShaderModule extends Module {
       OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var12, (float) var13);
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-      try {
+      try
+      {
         render.doRender(e,
-          x - RenderManager.renderPosX,
-          y - RenderManager.renderPosY,
-          z - RenderManager.renderPosZ,
-          yaw, tickDelta);
-      } catch (Exception ex) {
+            x - RenderManager.renderPosX,
+            y - RenderManager.renderPosY,
+            z - RenderManager.renderPosZ,
+            yaw, tickDelta);
+      } catch (Exception ex)
+      {
         ex.printStackTrace();
         Sentry.captureException(ex);
       }
     }
   }
 
-  private boolean canRenderEntity(Entity entity) {
+  private boolean canRenderEntity(Entity entity)
+  {
     if (!(entity instanceof EntityLivingBase)) return false;
     return !entity.equals(mc.thePlayer) || mc.gameSettings.thirdPersonView != 0;
   }

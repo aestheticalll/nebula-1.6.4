@@ -15,7 +15,8 @@ import java.util.Map;
  * @author Gavin
  * @since 08/14/23
  */
-public class PlayerSkinUtils {
+public class PlayerSkinUtils
+{
 
   private static final Map<String, DynamicTexture> playerFaceTextureMap = new HashMap<>();
   private static final Map<String, BufferedImage> usernameImageCache = new HashMap<>();
@@ -23,31 +24,38 @@ public class PlayerSkinUtils {
 
   /**
    * Grabs the cached or create the texture ID for the username face image
+   *
    * @param username the username
-   * @param size the width & height of the outputted image
+   * @param size     the width & height of the outputted image
    * @return the texture id or -1
    */
-  public static DynamicTexture face(String username, int size) {
+  public static DynamicTexture face(String username, int size)
+  {
     String usr = username + "_x" + size;
 
     if (playerFaceTextureMap.containsKey(usr))
       return playerFaceTextureMap.getOrDefault(usr, null);
 
-    if (!usernameImageCache.containsKey(usr)) {
+    if (!usernameImageCache.containsKey(usr))
+    {
       usernameImageCache.put(usr, null);
-      Nebula.EXECUTOR.execute(() -> {
-        try {
+      Nebula.EXECUTOR.execute(() ->
+      {
+        try
+        {
           URL url = new URL(String.format(FACE_URL, username, size));
           BufferedImage image = ImageIO.read(url);
 
           usernameImageCache.put(usr, image);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
           e.printStackTrace();
           Sentry.captureException(e);
           playerFaceTextureMap.remove(usr);
         }
       });
-    } else {
+    } else
+    {
       BufferedImage image = usernameImageCache.get(usr);
       if (image == null) return null;
 

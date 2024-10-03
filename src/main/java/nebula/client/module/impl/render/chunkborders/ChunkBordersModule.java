@@ -16,11 +16,13 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 03/20/24
  */
 @ModuleMeta(name = "ChunkBorders",
-  description = "Shows the chunk boundaries")
-public final class ChunkBordersModule extends Module {
+    description = "Shows the chunk boundaries")
+public final class ChunkBordersModule extends Module
+{
 
   @Subscribe
-  private final Listener<EventRender3D> render2DListener = event -> {
+  private final Listener<EventRender3D> render2DListener = event ->
+  {
 
     final double renderX = RenderManager.renderPosX;
     final double renderY = RenderManager.renderPosY;

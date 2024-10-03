@@ -12,36 +12,45 @@ import java.io.IOException;
  * @author Gavin
  * @since 08/13/23
  */
-public class FriendConfig implements Config {
+public class FriendConfig implements Config
+{
   @Override
-  public void save() {
+  public void save()
+  {
 
     StringBuilder builder = new StringBuilder();
-    for (Friend friend : Nebula.INSTANCE.friend.values()) {
+    for (Friend friend : Nebula.INSTANCE.friend.values())
+    {
       builder.append(friend.username());
-      if (friend.alias() != null && !friend.alias().isEmpty()) {
+      if (friend.alias() != null && !friend.alias().isEmpty())
+      {
         builder.append(",").append(friend.alias());
       }
 
       builder.append("\n");
     }
 
-    try {
+    try
+    {
       FileUtils.writeFile(file(), builder.toString());
-    } catch (IOException e) {
+    } catch (IOException e)
+    {
       e.printStackTrace();
       Sentry.captureException(e);
     }
   }
 
   @Override
-  public void load() {
+  public void load()
+  {
     if (!file().exists()) return;
 
     String content;
-    try {
+    try
+    {
       content = FileUtils.readFile(file());
-    } catch (Exception e) {
+    } catch (Exception e)
+    {
       e.printStackTrace();
       return;
     }
@@ -50,7 +59,8 @@ public class FriendConfig implements Config {
 
     Nebula.INSTANCE.friend.clear();
 
-    for (String line : content.split("\n")) {
+    for (String line : content.split("\n"))
+    {
       line = line.trim();
       if (line.isEmpty()) continue;
 
@@ -63,7 +73,8 @@ public class FriendConfig implements Config {
   }
 
   @Override
-  public File file() {
+  public File file()
+  {
     return new File(FileUtils.ROOT, "friends.txt");
   }
 }

@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Map.Entry;
+
+import nebula.client.Nebula;
+import nebula.client.module.impl.player.truedurability.TrueDurabilityModule;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -87,7 +90,8 @@ public final class ItemStack
         this.stackSize = par2;
         this.itemDamage = par3;
 
-        if (this.itemDamage < 0)
+        final TrueDurabilityModule trueDurabilityModule = Nebula.INSTANCE.module.get(TrueDurabilityModule.class);
+        if (this.itemDamage < 0 && (trueDurabilityModule != null && !trueDurabilityModule.macro().toggled()))
         {
             this.itemDamage = 0;
         }
@@ -196,9 +200,10 @@ public final class ItemStack
         this.stackSize = par1NBTTagCompound.getByte("Count");
         this.itemDamage = par1NBTTagCompound.getShort("Damage");
 
-        if (this.itemDamage < 0)
+        final TrueDurabilityModule trueDurabilityModule = Nebula.INSTANCE.module.get(TrueDurabilityModule.class);
+        if (this.itemDamage < 0 && (trueDurabilityModule != null && !trueDurabilityModule.macro().toggled()))
         {
-            this.itemDamage = 0;
+          this.itemDamage = 0;
         }
 
         if (par1NBTTagCompound.hasKey("tag", 10))

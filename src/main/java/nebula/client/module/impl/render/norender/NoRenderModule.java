@@ -17,37 +17,38 @@ import nebula.client.util.value.SettingMeta;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "NoRender",
-  description = "Prevents annoying things from rendering")
-public class NoRenderModule extends Module {
+    description = "Prevents annoying things from rendering")
+public class NoRenderModule extends Module
+{
 
   @SettingMeta("Hurt Camera")
   private final Setting<Boolean> hurtCamera = new Setting<>(
-    true);
+      true);
   @SettingMeta("Burning")
   private final Setting<Boolean> burning = new Setting<>(
-    true);
+      true);
   @SettingMeta("Items")
   private final Setting<Boolean> items = new Setting<>(
-    false);
+      false);
   @SettingMeta("EXP")
   private final Setting<Boolean> exp = new Setting<>(
-    false);
+      false);
 
   // listeners
 
   @Subscribe
   private final Listener<EventRenderHurtCamera> renderHurtCamera
-    = event -> event.setCanceled(hurtCamera.value());
+      = event -> event.setCanceled(hurtCamera.value());
 
   @Subscribe
   private final Listener<EventRenderBurning> renderBurning
-    = event -> event.setCanceled(burning.value());
+      = event -> event.setCanceled(burning.value());
 
   @Subscribe
   private final Listener<EventRender3DItem> render3DItem
-    = event -> event.setCanceled(items.value());
+      = event -> event.setCanceled(items.value());
 
   @Subscribe
   private final Listener<EventRenderEXPOrb> renderEXPOrb
-    = event -> event.setCanceled(exp.value());
+      = event -> event.setCanceled(exp.value());
 }

@@ -6,6 +6,7 @@ package nebula.client.listener.bus;
  * @since 06/11/23
  */
 @FunctionalInterface
-public interface Listener<T> {
+public interface Listener<T>
+{
   void invoke(T event);
 }

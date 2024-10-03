@@ -8,67 +8,80 @@ import nebula.client.config.JSONSerializable;
  * @author Gavin
  * @since 08/09/23
  */
-public class Macro implements JSONSerializable {
+public class Macro implements JSONSerializable
+{
 
+  private final MacroListener listener;
+  private final boolean instant;
   private int key;
   private MacroType type;
-  private final MacroListener listener;
-
   private boolean state;
-  private final boolean instant;
 
-  public Macro(int key, MacroType type, MacroListener listener) {
+  public Macro(int key, MacroType type, MacroListener listener)
+  {
     this(key, type, listener, false);
   }
 
-  public Macro(int key, MacroType type, MacroListener listener, boolean instant) {
+  public Macro(int key, MacroType type, MacroListener listener, boolean instant)
+  {
     this.key = key;
     this.type = type;
     this.listener = listener;
     this.instant = instant;
   }
 
-  public int key() {
+  public int key()
+  {
     return key;
   }
 
-  public void setKey(int key) {
+  public void setKey(int key)
+  {
     this.key = key;
   }
 
-  public MacroType type() {
+  public MacroType type()
+  {
     return type;
   }
 
-  public void setType(MacroType type) {
+  public void setType(MacroType type)
+  {
     this.type = type;
   }
 
-  public MacroListener listener() {
+  public MacroListener listener()
+  {
     return listener;
   }
 
-  public void setEnabled(boolean state) {
+  public void setEnabled(boolean state)
+  {
     this.state = state;
 
-    if (state) {
+    if (state)
+    {
       listener.enable();
       if (isInstant()) setEnabled(false);
-    } else {
+    } else
+    {
       listener.disable();
     }
   }
 
-  public boolean toggled() {
+  public boolean toggled()
+  {
     return state;
   }
 
-  public boolean isInstant() {
+  public boolean isInstant()
+  {
     return instant;
   }
 
   @Override
-  public JsonElement save() {
+  public JsonElement save()
+  {
     JsonObject object = new JsonObject();
 
     object.addProperty("key", key);
@@ -79,7 +92,8 @@ public class Macro implements JSONSerializable {
   }
 
   @Override
-  public void load(JsonElement element) {
+  public void load(JsonElement element)
+  {
     if (!element.isJsonObject()) return;
     JsonObject object = element.getAsJsonObject();
 

@@ -2,6 +2,7 @@
 package nebula.client.listener.bus;
 
 import io.netty.util.internal.ConcurrentSet;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.LinkedHashMap;
@@ -14,10 +15,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author aesthetical
  * @since 06/11/23
  */
-public class EventBus {
+public class EventBus
+{
 
   private final Map<Class<?>, List<Subscriber>> eventListenerMap =
-    new LinkedHashMap<>();
+      new LinkedHashMap<>();
   private final Set<Object> subscribers = new ConcurrentSet<>();
 
   /**
@@ -26,7 +28,8 @@ public class EventBus {
    * @param event the event to dispatch
    * @return if the event has been canceled
    */
-  public boolean dispatch(Object event) {
+  public boolean dispatch(Object event)
+  {
     List<Subscriber> subscriptions = eventListenerMap.get(event.getClass());
     if (subscriptions == null || subscriptions.isEmpty()) return false;
 
@@ -34,12 +37,15 @@ public class EventBus {
 
     boolean isCancelable = event instanceof Cancelable;
 
-    for (Subscriber subscriber : subscriptions) {
-      if (!subscriber.isIgnoreCanceled() || !result) {
+    for (Subscriber subscriber : subscriptions)
+    {
+      if (!subscriber.isIgnoreCanceled() || !result)
+      {
         subscriber.listener.invoke(event);
       }
 
-      if (isCancelable) {
+      if (isCancelable)
+      {
         result = ((Cancelable) event).isCanceled();
       }
     }
@@ -52,38 +58,43 @@ public class EventBus {
    *
    * @param subscriber the subscriber object
    */
-  public void subscribe(Object subscriber) {
+  public void subscribe(Object subscriber)
+  {
     if (subscribers.contains(subscriber)) return;
     subscribers.add(subscriber);
 
     Field[] declaredFields = subscriber.getClass().getDeclaredFields();
-    for (Field field : declaredFields) {
+    for (Field field : declaredFields)
+    {
       if (
-        Listener.class.isAssignableFrom(field.getType()) &&
-        field.trySetAccessible()
-      ) {
+          Listener.class.isAssignableFrom(field.getType()) &&
+              field.trySetAccessible()
+      )
+      {
         if (!field.isAnnotationPresent(Subscribe.class)) continue;
 
         Subscribe subscribe = field.getDeclaredAnnotation(Subscribe.class);
         int priority = subscribe.priority();
         boolean ignoreCanceled = subscribe.ignoreCanceled();
 
-        try {
+        try
+        {
           Listener<?> listener = (Listener<?>) field.get(subscriber);
           Class<?> eventClass = (Class<?>) (
-            (ParameterizedType) field.getGenericType()
+              (ParameterizedType) field.getGenericType()
           ).getActualTypeArguments()[0];
 
           List<Subscriber> subscriptions = eventListenerMap.computeIfAbsent(
-            eventClass,
-            x -> new CopyOnWriteArrayList<>()
+              eventClass,
+              x -> new CopyOnWriteArrayList<>()
           );
 
           subscriptions.add(
-            new Subscriber(subscriber, listener, priority, ignoreCanceled)
+              new Subscriber(subscriber, listener, priority, ignoreCanceled)
           );
           eventListenerMap.put(eventClass, subscriptions);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
           e.printStackTrace();
         }
       }
@@ -95,10 +106,12 @@ public class EventBus {
    *
    * @param subscriber the subscriber object
    */
-  public void unsubscribe(Object subscriber) {
+  public void unsubscribe(Object subscriber)
+  {
     if (!subscribers.remove(subscriber)) return;
 
-    for (Class<?> eventClass : eventListenerMap.keySet()) {
+    for (Class<?> eventClass : eventListenerMap.keySet())
+    {
       List<Subscriber> subscriptions = eventListenerMap.get(eventClass);
       if (subscriptions == null || subscriptions.isEmpty()) continue;
 

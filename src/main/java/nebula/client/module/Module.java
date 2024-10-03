@@ -24,7 +24,8 @@ import java.util.Map;
  * @author Gavin
  * @since 08/09/23
  */
-public class Module implements MacroListener, SettingContainer, JSONSerializable {
+public class Module implements MacroListener, SettingContainer, JSONSerializable
+{
 
   /**
    * The minecraft game instance
@@ -34,16 +35,15 @@ public class Module implements MacroListener, SettingContainer, JSONSerializable
   private final ModuleMeta meta;
   private final ModuleCategory category;
   private final Macro macro;
-
+  private final Map<String, Setting<?>> settingNameMap = new LinkedHashMap<>();
+  private final Animation animation = new Animation(
+      Easing.CUBIC_IN_OUT, 250, false);
   private boolean hidden;
 
-  private final Map<String, Setting<?>> settingNameMap = new LinkedHashMap<>();
-
-  private final Animation animation = new Animation(
-    Easing.CUBIC_IN_OUT, 250, false);
-
-  public Module() {
-    if (!getClass().isAnnotationPresent(ModuleMeta.class)) {
+  public Module()
+  {
+    if (!getClass().isAnnotationPresent(ModuleMeta.class))
+    {
       RuntimeException e = new RuntimeException("@ModuleMeta needs to be at the top of " + getClass());
       Sentry.captureException(e);
       throw e;
@@ -53,44 +53,52 @@ public class Module implements MacroListener, SettingContainer, JSONSerializable
     macro = new Macro(meta.defaultMacro(), MacroType.KEYBOARD, this);
 
     category = ModuleCategory.valueOf(getClass().getName()
-      .substring(ModuleRegistry.MODULE_IMPL.length() + 1)
-      .split("\\.")[0].toUpperCase());
+        .substring(ModuleRegistry.MODULE_IMPL.length() + 1)
+        .split("\\.")[0].toUpperCase());
   }
 
   @Override
-  public void enable() {
+  public void enable()
+  {
     Nebula.BUS.subscribe(this);
     animation.setState(true);
   }
 
   @Override
-  public void disable() {
+  public void disable()
+  {
     Nebula.BUS.unsubscribe(this);
     animation.setState(false);
   }
 
   @Override
-  public void init() {
+  public void init()
+  {
     if (meta.defaultState()) macro.setEnabled(true);
     Nebula.INSTANCE.macro.add(meta.name(), macro);
 
-    for (Field field : getClass().getDeclaredFields()) {
+    for (Field field : getClass().getDeclaredFields())
+    {
       if (!Setting.class.isAssignableFrom(field.getType())) continue;
 
-      if (field.trySetAccessible()) {
+      if (field.trySetAccessible())
+      {
 
-        if (!field.isAnnotationPresent(SettingMeta.class)) {
+        if (!field.isAnnotationPresent(SettingMeta.class))
+        {
           RuntimeException e = new RuntimeException(field + " must be annotated with @SettingMeta");
           Sentry.captureException(e);
           throw e;
         }
 
-        try {
+        try
+        {
           Setting<?> setting = (Setting<?>) field.get(this);
           setting.setMeta(field.getDeclaredAnnotation(SettingMeta.class));
 
           settingNameMap.put(setting.meta().value(), setting);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e)
+        {
           e.printStackTrace();
           Sentry.captureException(e);
         }
@@ -99,49 +107,60 @@ public class Module implements MacroListener, SettingContainer, JSONSerializable
   }
 
   @Override
-  public Setting<?> get(String name) {
+  public Setting<?> get(String name)
+  {
     return settingNameMap.get(name);
   }
 
   @Override
-  public Collection<Setting<?>> settings() {
+  public Collection<Setting<?>> settings()
+  {
     return settingNameMap.values();
   }
 
-  public Animation animation() {
+  public Animation animation()
+  {
     return animation;
   }
 
-  public ModuleMeta meta() {
+  public ModuleMeta meta()
+  {
     return meta;
   }
 
-  public String info() {
+  public String info()
+  {
     return null;
   }
 
-  public ModuleCategory category() {
+  public ModuleCategory category()
+  {
     return category;
   }
 
-  public Macro macro() {
+  public Macro macro()
+  {
     return macro;
   }
 
-  public void setHidden(boolean hidden) {
+  public void setHidden(boolean hidden)
+  {
     this.hidden = hidden;
   }
 
-  public boolean hidden() {
+  public boolean hidden()
+  {
     return hidden;
   }
 
   @Override
-  public JsonElement save() {
+  public JsonElement save()
+  {
     JsonObject object = new JsonObject();
 
     object.addProperty("hidden", hidden);
-    for (Setting<?> setting : settings()) {
+    for (Setting<?> setting : settings())
+    {
       JsonElement settingObj = setting.save();
       if (settingObj == null) continue;
       object.add(setting.meta().value(), settingObj);
@@ -151,13 +170,15 @@ public class Module implements MacroListener, SettingContainer, JSONSerializable
   }
 
   @Override
-  public void load(JsonElement element) {
+  public void load(JsonElement element)
+  {
     if (!element.isJsonObject()) return;
     JsonObject object = element.getAsJsonObject();
 
     hidden = object.get("hidden").getAsBoolean();
 
-    for (String name : settingNameMap.keySet()) {
+    for (String name : settingNameMap.keySet())
+    {
       if (!object.has(name)) continue;
       JsonElement e = object.get(name);
       settingNameMap.get(name).load(e);

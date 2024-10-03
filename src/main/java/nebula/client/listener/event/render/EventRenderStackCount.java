@@ -7,34 +7,41 @@ import net.minecraft.item.ItemStack;
  * @author Gavin
  * @since 08/18/23
  */
-public class EventRenderStackCount extends Cancelable {
+public class EventRenderStackCount extends Cancelable
+{
   private final ItemStack itemStack;
   private String text;
   private int color;
 
-  public EventRenderStackCount(ItemStack itemStack, String text, int color) {
+  public EventRenderStackCount(ItemStack itemStack, String text, int color)
+  {
     this.itemStack = itemStack;
     this.text = text;
     this.color = color;
   }
 
-  public ItemStack itemStack() {
+  public ItemStack itemStack()
+  {
     return itemStack;
   }
 
-  public String text() {
+  public String text()
+  {
     return text;
   }
 
-  public void setText(String text) {
+  public void setText(String text)
+  {
     this.text = text;
   }
 
-  public int color() {
+  public int color()
+  {
     return color;
   }
 
-  public void setColor(int color) {
+  public void setColor(int color)
+  {
     this.color = color;
   }
 }

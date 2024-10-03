@@ -4,7 +4,8 @@ package nebula.client.util.math;
  * @author Gavin
  * @since 08/10/23
  */
-public class Timer {
+public class Timer
+{
 
   /**
    * A constant for converting milliseconds to nanoseconds
@@ -25,7 +26,8 @@ public class Timer {
   /**
    * Creates an instance of the timer
    */
-  public Timer() {
+  public Timer()
+  {
 
     // reset time per instantiation of the object
     resetTime();
@@ -38,7 +40,8 @@ public class Timer {
    * @param reset if to automatically reset the timer
    * @return if the time has passed
    */
-  public boolean ticks(int ticks, boolean reset) {
+  public boolean ticks(int ticks, boolean reset)
+  {
     boolean passedTime = timeElapsedMS() >= (ticks * ONE_TICK_MS);
     if (passedTime && reset) resetTime();
     return passedTime;
@@ -51,7 +54,8 @@ public class Timer {
    * @param reset if to automatically reset the timer
    * @return if the time has passed
    */
-  public boolean ms(long ms, boolean reset) {
+  public boolean ms(long ms, boolean reset)
+  {
     boolean passedTime = timeElapsedMS() >= ms;
     if (passedTime && reset) resetTime();
     return passedTime;
@@ -62,7 +66,8 @@ public class Timer {
    *
    * @return the start time in nanosecond
    */
-  public long startTime() {
+  public long startTime()
+  {
     return startTime;
   }
 
@@ -71,7 +76,8 @@ public class Timer {
    *
    * @return the elapsed time in nanoseconds
    */
-  public long timeElapsed() {
+  public long timeElapsed()
+  {
     return System.nanoTime() - startTime;
   }
 
@@ -80,14 +86,16 @@ public class Timer {
    *
    * @return the elapsed time in milliseconds
    */
-  public long timeElapsedMS() {
+  public long timeElapsedMS()
+  {
     return timeElapsed() / ONE_MS_NS;
   }
 
   /**
    * Resets the timer's time
    */
-  public void resetTime() {
+  public void resetTime()
+  {
     startTime = System.nanoTime();
   }
 }

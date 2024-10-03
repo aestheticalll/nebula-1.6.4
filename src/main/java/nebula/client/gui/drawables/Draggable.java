@@ -6,14 +6,17 @@ import org.lwjgl.input.Mouse;
  * @author Gavin
  * @since 08/17/23
  */
-public abstract class Draggable extends Component {
+public abstract class Draggable extends Component
+{
 
   private double dragX, dragY;
   private boolean dragging;
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    if (dragging) {
+  public void render(int mouseX, int mouseY, float partialTicks)
+  {
+    if (dragging)
+    {
       setX(mouseX + dragX);
       setY(mouseY + dragY);
 
@@ -22,8 +25,10 @@ public abstract class Draggable extends Component {
   }
 
   @Override
-  public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-    if (mouseButton == 0 && mouseOver(mouseX, mouseY)) {
+  public void mouseClicked(int mouseX, int mouseY, int mouseButton)
+  {
+    if (mouseButton == 0 && mouseOver(mouseX, mouseY))
+    {
       dragging = true;
       dragX = x() - mouseX;
       dragY = y() - mouseY;

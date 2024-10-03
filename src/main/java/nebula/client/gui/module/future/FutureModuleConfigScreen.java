@@ -16,25 +16,28 @@ import java.util.List;
  * @author Gavin
  * @since 08/17/23
  */
-public class FutureModuleConfigScreen extends GuiScreen {
+public class FutureModuleConfigScreen extends GuiScreen
+{
   private final List<CategoryPanel> panelList = new LinkedList<>();
   private final ClickGUIModule module;
 
-  public FutureModuleConfigScreen(ClickGUIModule module) {
+  public FutureModuleConfigScreen(ClickGUIModule module)
+  {
     this.module = module;
 
     double x = 4.0;
     double y = 4.0;
 
-    for (ModuleCategory moduleCategory : ModuleCategory.values()) {
+    for (ModuleCategory moduleCategory : ModuleCategory.values())
+    {
       List<Module> categorized = Nebula.INSTANCE.module.values()
-        .stream()
-        .filter((mod) -> mod.category() == moduleCategory)
-        .toList();
+          .stream()
+          .filter((mod) -> mod.category() == moduleCategory)
+          .toList();
       if (categorized.isEmpty()) continue;
 
       CategoryPanel categoryPanel = new CategoryPanel(
-        moduleCategory, categorized);
+          moduleCategory, categorized);
 
       categoryPanel.setX(x);
       categoryPanel.setY(y);
@@ -48,59 +51,73 @@ public class FutureModuleConfigScreen extends GuiScreen {
   }
 
   @Override
-  public void drawScreen(int mouseX, int mouseY, float tickDelta) {
+  public void drawScreen(int mouseX, int mouseY, float tickDelta)
+  {
     int scroll = Mouse.getDWheel();
-    if (scroll > 0) {
-      for (CategoryPanel categoryPanel : panelList) {
+    if (scroll > 0)
+    {
+      for (CategoryPanel categoryPanel : panelList)
+      {
         double y = categoryPanel.y() + 10.0;
         if (y + 20 < height) categoryPanel.setY(y);
       }
-    } else if (scroll < 0) {
-      for (CategoryPanel categoryPanel : panelList) {
+    } else if (scroll < 0)
+    {
+      for (CategoryPanel categoryPanel : panelList)
+      {
         double y = categoryPanel.y() - 10.0;
         if (y + 20 > 0.0) categoryPanel.setY(y);
       }
     }
 
-    for (CategoryPanel categoryPanel : panelList) {
+    for (CategoryPanel categoryPanel : panelList)
+    {
       categoryPanel.render(mouseX, mouseY, tickDelta);
     }
   }
 
   @Override
-  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
+  {
     super.mouseClicked(mouseX, mouseY, mouseButton);
 
-    for (CategoryPanel categoryPanel : panelList) {
+    for (CategoryPanel categoryPanel : panelList)
+    {
       categoryPanel.mouseClicked(mouseX, mouseY, mouseButton);
     }
   }
 
   @Override
-  protected void keyTyped(char typedChar, int keyCode) {
+  protected void keyTyped(char typedChar, int keyCode)
+  {
     super.keyTyped(typedChar, keyCode);
 
-    for (CategoryPanel categoryPanel : panelList) {
+    for (CategoryPanel categoryPanel : panelList)
+    {
       categoryPanel.keyTyped(typedChar, keyCode);
     }
   }
 
   @Override
-  public void onGuiClosed() {
+  public void onGuiClosed()
+  {
     super.onGuiClosed();
     module.macro().setEnabled(false);
 
-    try {
+    try
+    {
       Nebula.LOGGER.info(Nebula.INSTANCE.module.save(
-        "default"));
-    } catch (IOException e) {
+          "default"));
+    } catch (IOException e)
+    {
       e.printStackTrace();
       Sentry.captureException(e);
     }
   }
 
   @Override
-  public boolean doesGuiPauseGame() {
+  public boolean doesGuiPauseGame()
+  {
     return module.pause.value();
   }
 }

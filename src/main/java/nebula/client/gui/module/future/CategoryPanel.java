@@ -12,7 +12,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -21,7 +21,8 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Gavin
  * @since 08/17/23
  */
-public class CategoryPanel extends Draggable {
+public class CategoryPanel extends Draggable
+{
 
   private static final double SPACING = 1.5;
   private static final double PADDING = 2.0;
@@ -30,7 +31,7 @@ public class CategoryPanel extends Draggable {
    * The location of the arrow
    */
   private static final ResourceLocation ARROW_LOCATION = new ResourceLocation(
-    "nebula/textures/future/arrow.png");
+      "nebula/textures/future/arrow.png");
 
   private final ModuleCategory moduleCategory;
 
@@ -38,20 +39,23 @@ public class CategoryPanel extends Draggable {
   private float arrowAngle;
 
   public CategoryPanel(ModuleCategory moduleCategory,
-                       List<Module> categorized) {
+                       List<Module> categorized)
+  {
 
     this.moduleCategory = moduleCategory;
 
     expanded = true;
     arrowAngle = 180.0f;
 
-    for (Module module : categorized) {
+    for (Module module : categorized)
+    {
       children().add(new ModuleButton(module));
     }
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
+  public void render(int mouseX, int mouseY, float partialTicks)
+  {
     super.render(mouseX, mouseY, partialTicks);
 
     RenderUtils.rect(x, y, width, height(), 0x77000000);
@@ -59,9 +63,9 @@ public class CategoryPanel extends Draggable {
     Color clientColor = HUDModule.primary.value();
 
     RenderUtils.rect(x, y, width, height,
-      ColorUtils.alpha(clientColor.getRGB(), 77));
+        ColorUtils.alpha(clientColor.getRGB(), 77));
     mc.fontRenderer.drawStringWithShadow(moduleCategory.display(),
-      (int) (x + 3), (int) (y + 3), -1);
+        (int) (x + 3), (int) (y + 3), -1);
 
     {
       glPushMatrix();
@@ -80,13 +84,13 @@ public class CategoryPanel extends Draggable {
       // Minecraft#draw
       float f = 0.00390625f;
       glColor4f(255 * f,
-        255 * f,
-        255 * f,
-        255 * f);
+          255 * f,
+          255 * f,
+          255 * f);
       Gui.func_146110_a(-5, -5,
-        0, 0,
-        10, 10,
-        10, 10);
+          0, 0,
+          10, 10,
+          10, 10);
 
       glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -94,11 +98,13 @@ public class CategoryPanel extends Draggable {
       glPopMatrix();
     }
 
-    if (expanded) {
+    if (expanded)
+    {
       if (arrowAngle > 0) arrowAngle -= 3 * partialTicks;
 
       double componentY = y + height + 1.0;
-      for (Component component : children()) {
+      for (Component component : children())
+      {
         component.setX(x + PADDING);
         component.setY(componentY);
         component.setWidth(width - (PADDING * 2));
@@ -108,41 +114,52 @@ public class CategoryPanel extends Draggable {
         componentY += component.height() + SPACING;
       }
 
-    } else {
+    } else
+    {
       if (arrowAngle < 180.0f) arrowAngle += 3 * partialTicks;
     }
   }
 
   @Override
-  public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+  public void mouseClicked(int mouseX, int mouseY, int mouseButton)
+  {
     super.mouseClicked(mouseX, mouseY, mouseButton);
 
-    if (mouseOver(mouseX, mouseY) && mouseButton == 1) {
+    if (mouseOver(mouseX, mouseY) && mouseButton == 1)
+    {
       expanded = !expanded;
       AudioUtils.click();
     }
 
-    if (expanded) {
-      for (Component component : children()) {
+    if (expanded)
+    {
+      for (Component component : children())
+      {
         component.mouseClicked(mouseX, mouseY, mouseButton);
       }
     }
   }
 
   @Override
-  public void keyTyped(char typedChar, int keyCode) {
-    if (expanded) {
-      for (Component component : children()) {
+  public void keyTyped(char typedChar, int keyCode)
+  {
+    if (expanded)
+    {
+      for (Component component : children())
+      {
         component.keyTyped(typedChar, keyCode);
       }
     }
   }
 
   @Override
-  public double height() {
+  public double height()
+  {
     double originalHeight = super.height();
-    if (expanded) {
-      for (Component component : children()) {
+    if (expanded)
+    {
+      for (Component component : children())
+      {
         originalHeight += component.height() + SPACING;
       }
     }

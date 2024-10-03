@@ -19,51 +19,58 @@ import static java.lang.String.format;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "AutoRespawn",
-  description = "Automatically respawns for you")
-public class AutoRespawnModule extends Module {
+    description = "Automatically respawns for you")
+public class AutoRespawnModule extends Module
+{
 
   @SettingMeta("Instant")
   private final Setting<Boolean> instant = new Setting<>(
-    false);
+      false);
   @SettingMeta("Death Coords")
   private final Setting<Boolean> deathCoords = new Setting<>(
-    true);
+      true);
 
   private boolean respawn;
-
-  @Override
-  public void disable() {
-    super.disable();
-    respawn = false;
-  }
-
   @Subscribe
-  private final Listener<EventChangeGui> changeGui = event -> {
-    if (event.screen() instanceof GuiGameOver && !respawn) {
+  private final Listener<EventChangeGui> changeGui = event ->
+  {
+    if (event.screen() instanceof GuiGameOver && !respawn)
+    {
       respawn = true;
 
-      if (deathCoords.value()) {
+      if (deathCoords.value())
+      {
         Printer.print(format("You died at XYZ: %.1f, %.1f, %.1f",
-          mc.thePlayer.posX,
-          mc.thePlayer.boundingBox.minY,
-          mc.thePlayer.posZ));
+            mc.thePlayer.posX,
+            mc.thePlayer.boundingBox.minY,
+            mc.thePlayer.posZ));
       }
 
-      if (instant.value()) {
+      if (instant.value())
+      {
         mc.thePlayer.respawnPlayer();
         event.setCanceled(true);
       }
-    } else if (event.screen() == null) {
+    } else if (event.screen() == null)
+    {
       respawn = false;
     }
   };
-
   @Subscribe
-  private final Listener<EventUpdate> update = event -> {
-    if (respawn) {
+  private final Listener<EventUpdate> update = event ->
+  {
+    if (respawn)
+    {
       respawn = false;
       mc.thePlayer.respawnPlayer();
     }
   };
+
+  @Override
+  public void disable()
+  {
+    super.disable();
+    respawn = false;
+  }
 
 }

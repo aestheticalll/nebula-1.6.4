@@ -15,39 +15,46 @@ import net.minecraft.util.AxisAlignedBB;
  */
 @SuppressWarnings("unused")
 @ModuleMeta(name = "Jesus",
-  description = "Allows you to walk on water")
-public class JesusModule extends Module {
+    description = "Allows you to walk on water")
+public class JesusModule extends Module
+{
 
   /**
    * The bounding box offset for a liquid block
    */
   private static final AxisAlignedBB JESUS_AABB = new AxisAlignedBB(
-    0, 0, 0, 1, 0.99, 1);
+      0, 0, 0, 1, 0.99, 1);
 
   @Subscribe
-  private final Listener<EventCollision> collision = event -> {
+  private final Listener<EventCollision> collision = event ->
+  {
     if (event.entity() != null
-      && event.entity().equals(mc.thePlayer)
-      && event.block().getMaterial().isLiquid()) {
+        && event.entity().equals(mc.thePlayer)
+        && event.block().getMaterial().isLiquid())
+    {
 
       event.setBox(JESUS_AABB.copy().offset(event.x(), event.y(), event.z()));
     }
   };
 
   @Subscribe
-  private final Listener<EventMoveUpdate> moveUpdate = event -> {
-    if (isAboveWater() && event.stage() == EventStage.PRE) {
+  private final Listener<EventMoveUpdate> moveUpdate = event ->
+  {
+    if (isAboveWater() && event.stage() == EventStage.PRE)
+    {
 
       event.setGround(false);
 
-      if (mc.thePlayer.ticksExisted % 2 == 0) {
+      if (mc.thePlayer.ticksExisted % 2 == 0)
+      {
         event.setY(event.y() + 0.01);
         event.setStance(event.stance() + 0.01);
       }
     }
   };
 
-  public static boolean isAboveWater() {
+  public static boolean isAboveWater()
+  {
     double x = Math.floor(mc.thePlayer.posX);
     double y = Math.round(mc.thePlayer.boundingBox.minY) - 1;
     double z = Math.floor(mc.thePlayer.posZ);
