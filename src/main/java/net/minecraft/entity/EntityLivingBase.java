@@ -8,9 +8,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.player.EventGravity;
-import nebula.client.listener.event.player.EventMoveBlockFriction;
-import nebula.client.listener.event.player.rotate.EventRotateBody;
+import nebula.client.impl.event.player.EventGravity;
+import nebula.client.impl.event.player.EventMoveBlockFriction;
+import nebula.client.impl.event.player.rotate.EventRotateBody;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;

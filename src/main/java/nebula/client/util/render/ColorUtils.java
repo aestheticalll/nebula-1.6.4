@@ -8,6 +8,15 @@ import java.awt.Color;
  */
 public class ColorUtils
 {
+  public static float[] getColor(int color)
+  {
+    float alpha = (color >> 24 & 0xff) / 255.0f;
+    float red = (color >> 16 & 0xff) / 255.0f;
+    float green = (color >> 8 & 0xff) / 255.0f;
+    float blue = (color & 0xff) / 255.0f;
+
+    return new float[] { alpha, red, green, blue };
+  }
 
   public static int alpha(int color, int alpha)
   {

@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.player.EventNoClip;
+import nebula.client.impl.event.player.EventNoClip;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -92,6 +92,7 @@ public abstract class Entity
     /** Axis aligned bounding box. */
     public final AxisAlignedBB boundingBox;
     public boolean onGround;
+    public int groundTicks;
 
     /**
      * True if after a move this entity has collided with something on X- or Z-axis
@@ -855,6 +856,13 @@ public abstract class Entity
             this.isCollidedHorizontally = var13 != par1 || var17 != par5;
             this.isCollidedVertically = var15 != par3;
             this.onGround = var15 != par3 && var15 < 0.0D;
+            if (onGround)
+            {
+              ++groundTicks;
+            } else
+            {
+              groundTicks = 0;
+            }
             this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
             this.updateFallState(par3, this.onGround);
 

@@ -2,6 +2,8 @@ package nebula.client.util.player;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -27,6 +29,32 @@ public class InventoryUtils
   public static final int HOTBAR_SIZE = 9;
 
   public static final int INVALID_INVENTORY = -1;
+
+  /**
+   * Checks if an ItemStack is an infinite item
+   *
+   * @param itemStack the stack
+   * @return if the stack size is less than 0 or greater than the max size
+   */
+  public static boolean infinite(ItemStack itemStack)
+  {
+    if (itemStack == null) return false;
+    return itemStack.stackSize < 0
+        || itemStack.stackSize > itemStack.getMaxStackSize();
+  }
+
+  /**
+   * Gets the enchantment level capped by its max level
+   *
+   * @param effectId  the enchantment effect id
+   * @param itemStack the item stack
+   * @return the level (capped at getMaxLevel())
+   */
+  public static int enchantment(int effectId, ItemStack itemStack)
+  {
+    int level = EnchantmentHelper.getEnchantmentLevel(effectId, itemStack);
+    return Math.min(Enchantment.enchantmentsList[effectId].getMaxLevel(), level);
+  }
 
   public static int hotbarBlockSearch(final Class<? extends Block>... blocks)
   {

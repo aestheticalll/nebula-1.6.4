@@ -1,17 +1,19 @@
 package nebula.client;
 
 import io.sentry.Sentry;
-import nebula.client.account.AccountRegistry;
-import nebula.client.command.CommandRegistry;
-import nebula.client.config.ConfigLoader;
-import nebula.client.friend.FriendRegistry;
-import nebula.client.inventory.InventoryManager;
-import nebula.client.listener.bus.EventBus;
-import nebula.client.macro.MacroRegistry;
-import nebula.client.module.ModuleRegistry;
-import nebula.client.rotate.RotationSpoofer;
+import nebula.client.api.account.AccountRegistry;
+import nebula.client.api.command.CommandRegistry;
+import nebula.client.api.config.ConfigLoader;
+import nebula.client.api.friend.FriendRegistry;
+import nebula.client.api.gui.font.Fonts;
+import nebula.client.api.inventory.InventoryManager;
+import nebula.client.api.eventbus.EventBus;
+import nebula.client.api.macro.MacroRegistry;
+import nebula.client.api.module.ModuleRegistry;
+import nebula.client.api.rotation.RotationSpoofer;
 import nebula.client.util.fs.FileUtils;
-import nebula.client.util.registry.Registry;
+import nebula.client.api.Registry;
+import nebula.client.util.render.RenderUtils;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -90,6 +92,11 @@ public enum Nebula
       LOGGER.info("Created {} {}",
           FileUtils.ROOT,
           result ? "successfully" : "unsuccessfully");
+      if (!result)
+      {
+        throw new RuntimeException("Could not create directory %s"
+            .formatted(FileUtils.ROOT.getAbsolutePath()));
+      }
     }
 
     // create registries
@@ -105,6 +112,9 @@ public enum Nebula
     // other misc shit
     inventory = new InventoryManager();
     rotation = new RotationSpoofer();
+
+    RenderUtils.loadShaders();
+    Fonts.loadFonts();
 
     Runtime.getRuntime().addShutdownHook(new Thread(() ->
     {

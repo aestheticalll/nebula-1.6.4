@@ -1,7 +1,7 @@
 package net.minecraft.client.multiplayer;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.interact.EventClickBlock;
+import nebula.client.impl.event.interact.EventClickBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

@@ -39,7 +39,7 @@ public class C09PacketHeldItemChange extends Packet
         p_149613_1_.processHeldItemChange(this);
     }
 
-    public int func_149614_c()
+    public int getSlotIndex()
     {
         return this.field_149615_a;
     }

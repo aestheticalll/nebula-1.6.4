@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.player.inventory.EventSlotClick;
+import nebula.client.impl.event.player.inventory.EventSlotClick;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;

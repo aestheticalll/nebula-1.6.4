@@ -1,9 +1,9 @@
 package net.minecraft.client.entity;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.player.EventBlockPush;
-import nebula.client.listener.event.player.EventSlowdown;
-import nebula.client.listener.event.render.EventPortalExitGui;
+import nebula.client.impl.event.player.EventBlockPush;
+import nebula.client.impl.event.player.EventSlowdown;
+import nebula.client.impl.event.render.EventPortalExitGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiCommandBlock;

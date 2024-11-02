@@ -22,10 +22,10 @@ import java.util.concurrent.Callable;
 import javax.imageio.ImageIO;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.io.EventKeyInput;
-import nebula.client.listener.event.io.EventMouseInput;
-import nebula.client.listener.event.net.EventChangeServer;
-import nebula.client.listener.event.render.EventChangeGui;
+import nebula.client.impl.event.io.EventKeyInput;
+import nebula.client.impl.event.io.EventMouseInput;
+import nebula.client.impl.event.net.EventChangeServer;
+import nebula.client.impl.event.render.EventChangeGui;
 import nebula.client.util.player.FakePlayerUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

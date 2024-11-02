@@ -3,8 +3,8 @@ package net.minecraft.client.renderer.entity;
 import java.util.Random;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.player.rotate.EventHeadRotations;
-import nebula.client.listener.event.render.EventRenderLiving;
+import nebula.client.impl.event.player.rotate.EventHeadRotations;
+import nebula.client.impl.event.render.EventRenderLiving;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;

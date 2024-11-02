@@ -671,9 +671,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      */
     public void processHeldItemChange(C09PacketHeldItemChange p_147355_1_)
     {
-        if (p_147355_1_.func_149614_c() >= 0 && p_147355_1_.func_149614_c() < InventoryPlayer.getHotbarSize())
+        if (p_147355_1_.getSlotIndex() >= 0 && p_147355_1_.getSlotIndex() < InventoryPlayer.getHotbarSize())
         {
-            this.playerEntity.inventory.currentItem = p_147355_1_.func_149614_c();
+            this.playerEntity.inventory.currentItem = p_147355_1_.getSlotIndex();
             this.playerEntity.func_143004_u();
         }
         else

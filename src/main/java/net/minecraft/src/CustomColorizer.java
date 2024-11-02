@@ -13,7 +13,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.render.EventWorldGamma;
+import nebula.client.impl.event.render.EventWorldGamma;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.material.Material;

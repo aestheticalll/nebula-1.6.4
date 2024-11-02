@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.render.EventRenderHeldItem;
-import nebula.client.listener.event.render.overlay.EventRenderBurning;
-import nebula.client.util.chat.Printer;
+import nebula.client.impl.event.render.EventRenderHeldItem;
+import nebula.client.impl.event.render.overlay.EventRenderBurning;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

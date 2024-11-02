@@ -1,5 +1,6 @@
 package nebula.client.util.render;
 
+import nebula.client.api.gui.shader.Shader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -18,11 +19,38 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class RenderUtils
 {
+  private static final Minecraft mc = Minecraft.getMinecraft();
+
+  public static Shader roundShader, espShader;
 
   /**
    * The cached ScaledResolution object from {@link net.minecraft.client.gui.GuiIngame}
    */
   public static ScaledResolution resolution;
+
+  public static void loadShaders()
+  {
+    roundShader = new Shader(
+        "/assets/minecraft/nebula/shader/vertex.vsh",
+        "/assets/minecraft/nebula/shader/roundedrect.frag",
+        (shader) -> {
+          shader.createUniform("rectSize");
+          shader.createUniform("color");
+          shader.createUniform("radius");
+          shader.createUniform("edgeSoftness");
+        });
+    espShader = new Shader(
+        "/assets/minecraft/nebula/shader/vertex.vsh",
+        "/assets/minecraft/nebula/shader/esp.fsh",
+        (s) ->
+        {
+          s.createUniform("texture");
+          s.createUniform("texelSize");
+          s.createUniform("color");
+          s.createUniform("radius");
+          s.createUniform("opacity");
+        });
+  }
 
   public static void rect(double x, double y, double width, double height, int color)
   {
@@ -148,6 +176,81 @@ public class RenderUtils
 
     glDisable(GL_BLEND);
     glPopMatrix();
+  }
+
+  public static void circle(double x, double y, double radius, int color) {
+    glEnable(GL_BLEND);
+    OpenGlHelper.glBlendFunc(770, 771, 0, 1);
+
+    float[] argb = ColorUtils.getColor(color);
+    glColor4f(argb[1], argb[2], argb[3], argb[0]);
+
+    glLineWidth(1.5f);
+    glBegin(GL_LINE_LOOP);
+    {
+
+      for (double angle = 0.0; angle <= 180.0; angle += 0.1) {
+        double posX = x + Math.cos(angle) * radius;
+        double posY = y - Math.sin(angle) * radius;
+
+        glVertex2d(posX, posY);
+      }
+    }
+    glEnd();
+
+    glDisable(GL_BLEND);
+  }
+
+  public static void roundRect(double x, double y, double w, double h, double radius, int color) {
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    OpenGlHelper.glBlendFunc(770, 771, 0, 1);
+
+    float[] argb = ColorUtils.getColor(color);
+    roundShader.use();
+    {
+      int scaleFactor = mc.gameSettings.guiScale;
+      if (resolution != null) {
+        scaleFactor = resolution.getScaleFactor();
+      }
+
+      roundShader.set("rectSize",
+          (float) (w * scaleFactor),
+          (float) (h * scaleFactor));
+      roundShader.set("color", argb[1], argb[2], argb[3], argb[0]);
+      roundShader.set("radius", (float) (radius * scaleFactor));
+      roundShader.set("edgeSoftness", 1.0f);
+    }
+
+    glBegin(GL_QUADS);
+    {
+      glTexCoord2d(0, 0);
+      glVertex2d(x, y);
+      glTexCoord2d(0, 1);
+      glVertex2d(x, y + h);
+      glTexCoord2d(1, 1);
+      glVertex2d(x + w, y + h);
+      glTexCoord2d(1, 0);
+      glVertex2d(x + w, y);
+    }
+    glEnd();
+
+    roundShader.stop();
+
+    glDisable(GL_BLEND);
+  }
+
+  public static void scissor(double x, double y, double width, double height) {
+    double scale = resolution.getScaleFactor();
+    glEnable(GL_SCISSOR_TEST);
+    glScissor((int) (x * scale),
+        (int) (((resolution.getScaledHeight_double() - y) * scale) - (height * scale)),
+        (int) (width * scale),
+        (int) (height * scale));
+  }
+
+  public static void endScissor() {
+    glDisable(GL_SCISSOR_TEST);
   }
 
   public static void filledAabb(AxisAlignedBB box)

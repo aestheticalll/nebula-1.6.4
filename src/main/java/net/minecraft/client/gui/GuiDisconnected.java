@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nebula.client.Nebula;
-import nebula.client.module.impl.player.autoreconnect.AutoReconnectModule;
+import nebula.client.impl.module.player.autoreconnect.AutoReconnectModule;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IChatComponent;

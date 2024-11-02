@@ -1,6 +1,6 @@
 package nebula.client.util.player;
 
-import nebula.client.listener.event.player.EventMove;
+import nebula.client.impl.event.player.EventMove;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;

@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Random;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.render.EventRender2D;
-import nebula.client.listener.event.render.EventRenderHotbarSlot;
-import nebula.client.listener.event.render.overlay.EventRenderTabPlayerName;
-import nebula.client.module.impl.render.appleskin.AppleSkinModule;
+import nebula.client.impl.event.render.EventRender2D;
+import nebula.client.impl.event.render.EventRenderHotbarSlot;
+import nebula.client.impl.event.render.overlay.EventRenderTabPlayerName;
+import nebula.client.impl.module.render.appleskin.AppleSkinModule;
 import nebula.client.util.render.RenderUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

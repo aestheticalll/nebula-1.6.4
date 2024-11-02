@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
-import nebula.client.util.render.animation.Animation;
-import nebula.client.util.render.animation.Easing;
+import nebula.client.api.gui.animation.Animation;
+import nebula.client.api.gui.animation.Easing;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;

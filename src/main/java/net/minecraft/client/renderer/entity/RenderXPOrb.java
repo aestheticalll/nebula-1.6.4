@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.render.EventRenderEXPOrb;
+import nebula.client.impl.event.render.EventRenderEXPOrb;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;

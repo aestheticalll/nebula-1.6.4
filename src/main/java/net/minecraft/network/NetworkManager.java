@@ -23,7 +23,7 @@ import java.util.Queue;
 import javax.crypto.SecretKey;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.net.EventPacket;
+import nebula.client.impl.event.net.EventPacket;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;

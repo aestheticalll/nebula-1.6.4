@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.world.EventCollision;
+import nebula.client.impl.event.world.EventCollision;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

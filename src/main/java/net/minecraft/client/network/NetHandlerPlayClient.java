@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.net.EventTabListUpdate;
+import nebula.client.impl.event.net.EventTabListUpdate;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;

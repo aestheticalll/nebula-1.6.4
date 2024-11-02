@@ -2,8 +2,8 @@ package net.minecraft.client.gui;
 
 import io.sentry.Sentry;
 import nebula.client.Nebula;
-import nebula.client.module.impl.player.antidisconnect.AntiDisconnectModule;
-import nebula.client.module.impl.player.antidisconnect.DisconnectConfirmScreen;
+import nebula.client.impl.module.player.antidisconnect.AntiDisconnectModule;
+import nebula.client.impl.module.player.antidisconnect.DisconnectConfirmScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;

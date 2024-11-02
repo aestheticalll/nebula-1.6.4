@@ -1,10 +1,10 @@
 package net.minecraft.client.entity;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.EventStage;
-import nebula.client.listener.event.player.EventMoveUpdate;
-import nebula.client.listener.event.player.EventMultiUpdate;
-import nebula.client.listener.event.player.EventUpdate;
+import nebula.client.impl.event.EventStage;
+import nebula.client.impl.event.player.EventMoveUpdate;
+import nebula.client.impl.event.player.EventMultiUpdate;
+import nebula.client.impl.event.player.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -280,7 +280,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 
-    public void swingSilent() {
+    public void swingItemSilent() {
         this.sendQueue.addToSendQueue(new C0APacketAnimation(this, 1));
     }
 

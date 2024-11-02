@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.player.EventWaterPush;
-import nebula.client.listener.event.render.weather.EventRainStrength;
-import nebula.client.listener.event.render.weather.EventThunderStrength;
+import nebula.client.impl.event.player.EventWaterPush;
+import nebula.client.impl.event.render.weather.EventRainStrength;
+import nebula.client.impl.event.render.weather.EventThunderStrength;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLiquid;

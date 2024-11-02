@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nebula.client.Nebula;
-import nebula.client.module.impl.render.chat.ChatModule;
+import nebula.client.impl.module.render.chat.ChatModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;

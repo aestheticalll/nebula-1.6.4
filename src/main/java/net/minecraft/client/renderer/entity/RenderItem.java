@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.render.EventRender3DItem;
-import nebula.client.listener.event.render.EventRenderStackCount;
+import nebula.client.impl.event.render.EventRender3DItem;
+import nebula.client.impl.event.render.EventRenderStackCount;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -29,7 +29,6 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL14;
 
 public class RenderItem extends Render
 {

@@ -11,9 +11,9 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import nebula.client.Nebula;
-import nebula.client.listener.event.render.EventRender3D;
-import nebula.client.listener.event.render.EventWorldGamma;
-import nebula.client.listener.event.render.overlay.EventRenderHurtCamera;
+import nebula.client.impl.event.render.EventRender3D;
+import nebula.client.impl.event.render.EventWorldGamma;
+import nebula.client.impl.event.render.overlay.EventRenderHurtCamera;
 import nebula.client.util.render.ProjectionUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

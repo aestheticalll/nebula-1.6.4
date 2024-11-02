@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import nebula.client.Nebula;
-import nebula.client.module.impl.player.truedurability.TrueDurabilityModule;
+import nebula.client.impl.module.player.truedurability.TrueDurabilityModule;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -90,8 +90,7 @@ public final class ItemStack
         this.stackSize = par2;
         this.itemDamage = par3;
 
-        final TrueDurabilityModule trueDurabilityModule = Nebula.INSTANCE.module.get(TrueDurabilityModule.class);
-        if (this.itemDamage < 0 && (trueDurabilityModule != null && !trueDurabilityModule.macro().toggled()))
+        if (this.itemDamage < 0)
         {
             this.itemDamage = 0;
         }
